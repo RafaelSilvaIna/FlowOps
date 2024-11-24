@@ -87,3 +87,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     window.addEventListener('scroll', parallaxEffect);
 });
+
+
+// secao de apresentacao script - rafael silva
+AOS.init({
+    duration: 1000,
+    once: true
+});
+
+const presentationSwiper = new Swiper('.presentation-swiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 2,
+        },
+        1024: {
+            slidesPerView: 3,
+        }
+    }
+});
