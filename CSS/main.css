@@ -256,47 +256,63 @@ body {
     }
 }
 
-#about-app {
-  background-color: #f4f7fa;
+/* Parallax Effect */
+.parallax {
+  background: url('your-image-url.jpg') no-repeat center center fixed;
+  background-size: cover;
+  padding: 100px 0;
+  color: white;
 }
 
+/* Section Title */
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #333;
+  color: #fff;
 }
 
+/* Section Description */
 .section-description {
   font-size: 1.1rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   margin-top: 10px;
 }
 
+/* Feature Cards */
 .feature-card {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  padding: 30px;
+  transition: transform 0.3s ease;
 }
 
 .feature-card:hover {
   transform: translateY(-10px);
 }
 
+/* Feature Title */
 .feature-title {
   font-size: 1.5rem;
   color: #007bff;
 }
 
+/* Feature Description */
 .feature-description {
   font-size: 1rem;
   color: #444;
 }
 
+/* Icon Styling */
+.feature-icon {
+  color: #007bff;
+}
+
+/* Button */
 .btn-primary {
   background-color: #007bff;
   border-color: #007bff;
-  padding: 10px 30px;
+  padding: 12px 40px;
   font-size: 1.2rem;
   text-transform: uppercase;
   border-radius: 30px;
@@ -307,3 +323,19 @@ body {
   border-color: #0056b3;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  .section-description {
+    font-size: 1rem;
+  }
+  .feature-card {
+    margin-bottom: 20px;
+  }
+  .btn-primary {
+    font-size: 1rem;
+    padding: 10px 30px;
+  }
+}
