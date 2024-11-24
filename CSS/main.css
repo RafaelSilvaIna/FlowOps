@@ -255,36 +255,54 @@ body {
         font-size: 3rem;
     }
 
-    .features-section {
+   .features-section {
         background-color: #f8f9fa;
+        background-image: 
+            radial-gradient(at 47% 33%, hsl(162.00, 77%, 40%) 0, transparent 59%), 
+            radial-gradient(at 82% 65%, hsl(218.00, 39%, 11%) 0, transparent 55%);
+    }
+    .text-gradient {
+        background: linear-gradient(45deg, #007bff, #00ff9d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
     }
     .feature-icon {
         width: 80px;
         height: 80px;
-        border-radius: 50%;
-        background-color: rgba(13, 110, 253, 0.1);
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto;
+        transition: transform 0.3s ease-in-out;
     }
     .card {
         transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        border-radius: 15px;
     }
     .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-10px);
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    }
+    .card:hover .feature-icon {
+        transform: scale(1.1);
     }
     .btn-primary {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
+        background: linear-gradient(45deg, #007bff, #00ff9d);
+        border: none;
         transition: all 0.3s ease-in-out;
     }
     .btn-primary:hover {
-        background-color: #0b5ed7;
-        border-color: #0a58ca;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        background: linear-gradient(45deg, #0056b3, #00cc7a);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .animate-hover {
+        transition: all 0.3s;
+    }
+    .animate-hover:hover {
+        transform: translateY(-5px);
     }
     @media (max-width: 767.98px) {
         .display-4 {
@@ -294,8 +312,3 @@ body {
             font-size: 1rem;
         }
     }
-
-    .hero p {
-        font-size: 1.2rem;
-    }
-}
