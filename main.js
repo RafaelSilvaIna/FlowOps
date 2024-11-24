@@ -74,3 +74,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const parallaxEffect = () => {
+        const cards = document.querySelectorAll('.feature-card');
+        cards.forEach((card, index) => {
+            const speed = 1 + (index * 0.1);
+            const yPos = -(window.pageYOffset * speed / 10);
+            card.style.transform = `translateY(${yPos}px)`;
+        });
+    };
+
+    window.addEventListener('scroll', parallaxEffect);
+});
