@@ -179,7 +179,7 @@ body {
 }
 
 .hero {
-    background-image: url('img/hero-img.jpeg');
+    background-image: url('https://i.ibb.co/fHLmmp4/hero-img.jpg');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
