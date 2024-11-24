@@ -258,7 +258,7 @@ body {
 
 /* Parallax Effect */
 .parallax {
-  background: url('img/Parallax-img1.gif') no-repeat center center fixed;
+  background: url('https://i.ibb.co/10y26KF/Parallax-img1.gif') no-repeat center center fixed;
   background-size: cover;
   padding: 100px 0;
   color: white;
