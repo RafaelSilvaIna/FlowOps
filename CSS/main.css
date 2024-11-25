@@ -426,32 +426,7 @@ body {
 
 
 /* secao se apresentacao de mais algumas coisas */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
 
-  h1 {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #000;
-  }
-
-  p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    color: #555;
-    margin-bottom: 1.5rem;
-  }
 
   .section {
     width: 80%;
