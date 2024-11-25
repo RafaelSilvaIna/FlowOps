@@ -98,3 +98,43 @@ document.querySelector('.get-started-btn').addEventListener('mousemove', functio
     this.style.setProperty('--x', x + 'px');
     this.style.setProperty('--y', y + 'px');
 });
+
+// secao de explicacao mais um puco resumida do app e tambem com o menu de mause
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    var customMenu = document.querySelector('.custom-menu');
+    customMenu.style.display = 'block';
+    customMenu.style.left = e.pageX + 'px';
+    customMenu.style.top = e.pageY + 'px';
+});
+
+document.addEventListener('click', function() {
+    document.querySelector('.custom-menu').style.display = 'none';
+});
+
+document.querySelector('.custom-menu').addEventListener('click', function(e) {
+    if (e.target.tagName === 'LI') {
+        var action = e.target.getAttribute('data-action');
+        switch (action) {
+            case 'source':
+                window.open('https://github.com/flowops/repo', '_blank');
+                break;
+            case 'version':
+                alert('Versão atual: 1.0.0');
+                break;
+            case 'docs':
+                window.open('https://docs.flowops.com', '_blank');
+                break;
+            case 'dev':
+                window.open('https://flowops.com/team', '_blank');
+                break;
+        }
+    }
+});
+
+// Parallax effect
+window.addEventListener('scroll', function() {
+    var scrolled = window.pageYOffset;
+    var parallax = document.querySelector('.parallax-bg');
+    parallax.style.transform = 'translateY(' + (scrolled * 0.5) + 'px)';
+});
