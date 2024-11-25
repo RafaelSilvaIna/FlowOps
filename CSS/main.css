@@ -381,6 +381,7 @@ body {
     }
 }
 
+/*  secao de paralaxx para apresenta outras informacao agora esta no controle pois for removida */
 .parallax-section {
     position: relative;
     height: 100vh;
@@ -451,7 +452,7 @@ body {
     margin-top: 1rem;
 }
 
-/* Custom right-click menu styles */
+/* menu do botao direito */
 .custom-menu {
     display: none;
     position: absolute;
@@ -491,3 +492,108 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.main-section {
+    padding-top: 80px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+    padding: 2rem;
+}
+
+.main-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease;
+}
+
+.main-description {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease 0.2s;
+    animation-fill-mode: both;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #fff;
+    color: #6e8efb;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: fadeInUp 1s ease 0.4s;
+    animation-fill-mode: both;
+}
+
+.cta-button:hover {
+    background-color: #6e8efb;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.message-slider {
+    margin-top: 2rem;
+    height: 60px;
+    overflow: hidden;
+}
+
+.slider-content {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.5s ease;
+}
+
+.slider-item {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.language-flags {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.flag {
+    width: 30px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.flag:hover {
+    transform: scale(1.1);
+}
+
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
