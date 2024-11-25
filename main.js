@@ -89,25 +89,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 
-// secao de apresentacao script - rafael silva
-AOS.init({
-    duration: 1000,
-    once: true
-});
+// secao de apresentacao inical - rafael silva inacio
 
-const presentationSwiper = new Swiper('.presentation-swiper', {
-    slidesPerView: 1,
-    spaceBetween: 20,
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-    },
-    breakpoints: {
-        640: {
-            slidesPerView: 2,
-        },
-        1024: {
-            slidesPerView: 3,
-        }
-    }
+document.querySelector('.get-started-btn').addEventListener('mousemove', function(e) {
+    const x = e.pageX - this.offsetLeft;
+    const y = e.pageY - this.offsetTop;
+    
+    this.style.setProperty('--x', x + 'px');
+    this.style.setProperty('--y', y + 'px');
 });
