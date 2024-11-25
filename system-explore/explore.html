@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowOsp - Gestão Empresarial e Pessoal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.net.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="background-animation"></div>
+    <header class="bg-white bg-opacity-90 shadow-md fixed w-full z-10">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <img src="../img/logo-Flow.png" alt="FlowOsp Logo" class="h-12">
+                <ul class="flex space-x-4">
+                    <li><a href="#sobre" class="text-gray-800 hover:text-blue-600 transition duration-300">Sobre</a></li>
+                    <li><a href="#recursos" class="text-gray-800 hover:text-blue-600 transition duration-300">Recursos</a></li>
+                    <li><a href="#contato" class="text-gray-800 hover:text-blue-600 transition duration-300">Contato</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 pt-24">
+        <section id="hero" class="text-center py-20">
+            <h1 class="text-5xl font-bold mb-4 text-gray-800">Bem-vindo ao FlowOsp</h1>
+            <p class="text-xl mb-8 text-gray-600">Sua ferramenta completa para gestão empresarial e pessoal</p>
+            <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-300">Comece Agora</a>
+        </section>
+
+        <section id="sobre" class="py-20">
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Sobre o FlowOsp</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">O FlowOsp é um software inovador projetado para ajudar você a gerenciar sua vida pessoal e profissional. Com foco principal em gestão empresarial, nosso aplicativo também oferece recursos poderosos para organização pessoal.</p>
+        </section>
+
+        <section id="recursos" class="py-20">
+            <h2 class="text-3xl font-bold mb-12 text-center text-gray-800">Recursos Principais</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <i class="fas fa-building text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Gestão Empresarial</h3>
+                    <p class="text-gray-600">Ferramentas avançadas para gerenciar projetos, equipes e recursos da sua empresa.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <i class="fas fa-tasks text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Organização Pessoal</h3>
+                    <p class="text-gray-600">Gerencie suas tarefas diárias, metas e compromissos pessoais com facilidade.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <i class="fas fa-users text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Colaboração em Equipe</h3>
+                    <p class="text-gray-600">Crie projetos pessoais ou em equipe e colabore eficientemente com outros usuários.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <i class="fas fa-comments text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Comunicação Integrada</h3>
+                    <p class="text-gray-600">Converse com outros usuários diretamente na plataforma para uma colaboração perfeita.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="desenvolvimento" class="py-20 bg-gray-50 rounded-lg">
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Em Desenvolvimento</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center">O FlowOsp está em constante evolução. Estamos trabalhando duro para trazer ainda mais recursos e melhorias para tornar sua experiência ainda melhor.</p>
+        </section>
+
+        <section id="contato" class="py-20">
+            <h2 class="text-3xl font-bold mb-12 text-center text-gray-800">Entre em Contato</h2>
+            <form id="contact-form" class="max-w-lg mx-auto">
+                <div class="mb-4">
+                    <input type="text" name="name" placeholder="Seu Nome" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <input type="email" name="email" placeholder="Seu E-mail" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </div>
+                <div class="mb-4">
+                    <textarea name="message" placeholder="Sua Mensagem" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 h-32"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2024 FlowOsp. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="javascript/explore.js"></script>
+</body>
+</html>
+
