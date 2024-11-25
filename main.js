@@ -132,9 +132,53 @@ document.querySelector('.custom-menu').addEventListener('click', function(e) {
     }
 });
 
-// Parallax effect
 window.addEventListener('scroll', function() {
     var scrolled = window.pageYOffset;
     var parallax = document.querySelector('.parallax-bg');
     parallax.style.transform = 'translateY(' + (scrolled * 0.5) + 'px)';
+});
+
+// secao nova de apresentacao e o codigo acima esta em ajuste 
+const sliderContent = document.querySelector('.slider-content');
+const sliderItems = document.querySelectorAll('.slider-item');
+let currentIndex = 0;
+
+function nextSlide() {
+    currentIndex = (currentIndex + 1) % sliderItems.length;
+    updateSlider();
+}
+
+function updateSlider() {
+    sliderContent.style.transform = `translateY(-${currentIndex * 60}px)`;
+}
+
+setInterval(nextSlide, 3000);
+
+
+
+// Efeito de partículas
+const particlesContainer = document.querySelector('.particles');
+const particleCount = 50;
+
+for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('span');
+    particle.classList.add('particle');
+    particle.style.width = `${Math.random() * 10 + 5}px`;
+    particle.style.height = particle.style.width;
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    particle.style.animationDelay = `${Math.random() * 2}s`;
+    particlesContainer.appendChild(particle);
+}
+
+
+document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth - 0.5;
+    const mouseY = e.clientY / window.innerHeight - 0.5;
+    
+    const mainContent = document.querySelector('.main-content');
+    const particles = document.querySelector('.particles');
+    
+    mainContent.style.transform = `translate(${mouseX * 20}px, ${mouseY * 20}px)`;
+    particles.style.transform = `translate(${mouseX * 40}px, ${mouseY * 40}px)`;
 });
