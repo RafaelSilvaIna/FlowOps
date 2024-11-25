@@ -157,8 +157,42 @@ setInterval(nextSlide, 3000);
 
 
 // secao nova - 25/11/2024
-const swiper = new Swiper('.swiper-container', {
-    loop: true,
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+gsap.from(".section", {
+    duration: 1,
+    opacity: 0,
+    y: 50,
+    stagger: 0.3,
+    ease: "power3.out",
+  });
+
+  // Animações específicas para elementos
+  gsap.from(".icon", {
+    duration: 1,
+    scale: 0,
+    rotation: 360,
+    ease: "elastic.out(1, 0.5)",
+  });
+
+  gsap.from("h1", {
+    duration: 1,
+    opacity: 0,
+    x: -100,
+    ease: "power2.out",
+    delay: 0.5,
+  });
+
+  gsap.from("p", {
+    duration: 1,
+    opacity: 0,
+    x: 100,
+    ease: "power2.out",
+    delay: 0.7,
+  });
+
+  gsap.from(".btn", {
+    duration: 1,
+    opacity: 0,
+    scale: 0.8,
+    ease: "bounce.out",
+    delay: 1,
   });
