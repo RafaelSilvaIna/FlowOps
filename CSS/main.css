@@ -429,8 +429,8 @@ body {
 
 
   .section {
-    width: 80%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 1020px;
     text-align: center;
     padding: 2rem;
     background-color: #fff;
