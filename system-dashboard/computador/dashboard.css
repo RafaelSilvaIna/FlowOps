@@ -1,3 +1,4 @@
+
 /* Custom Styles */
 body {
     font-family: 'Arial', sans-serif;
@@ -20,10 +21,30 @@ aside ul li a {
 }
 
 aside ul li a:hover {
-    background-color: #e5e7eb; 
-    color: #1f2937;
+    background-color: #e5e7eb; /* Tailwind Gray-200 */
+    color: #1f2937; /* Tailwind Gray-800 */
 }
 
 aside ul li a i {
     font-size: 1.25rem;
+}
+
+/* Modal Styles */
+#settings-modal {
+    display: none;
+}
+
+#settings-modal .p-6 {
+    width: 300px;
+}
+
+#notification {
+    display: none;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#notification i {
+    margin-right: 10px;
 }

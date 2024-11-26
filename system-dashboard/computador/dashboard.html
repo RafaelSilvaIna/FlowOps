@@ -19,59 +19,80 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body class="bg-gray-100">
-    <!-- Header -->
-    <header class="bg-white shadow-md py-4">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="logo">
-                <h1 class="text-2xl font-bold text-gray-800">FlowOps Dashboard</h1>
-                <span class="text-sm text-gray-500">Versão 1.0.0</span>
+    <body class="bg-gray-100">
+        <!-- Header -->
+        <header class="bg-white shadow-md py-4">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <h1 class="text-2xl font-bold text-gray-800">FlowOps Dashboard</h1>
+                    <span class="text-sm text-gray-500">Versão 1.0.0</span>
+                </div>
+                <nav class="d-flex align-items-center">
+                    <div id="auth-status" class="flex items-center cursor-pointer">
+                        <span id="auth-status-text" class="mr-2">Verificando autenticação...</span>
+                        <i id="auth-icon" class="fa fa-cog fa-spin text-blue-500"></i>
+                    </div>
+                </nav>
             </div>
-            <nav class="d-flex align-items-center">
-                <a href="#" class="btn btn-outline-primary me-2">Entrar</a>
-                <a href="#" class="btn btn-primary">Cadastrar</a>
-            </nav>
+        </header>
+    
+        <!-- Main Content -->
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <aside class="bg-white shadow-sm vh-100 p-3" style="width: 250px;">
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <a href="#perfil" class="d-flex align-items-center text-decoration-none text-gray-800">
+                            <i class="fa fa-user fa-lg me-3 text-blue-600"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li class="mb-3">
+                        <a href="#projetos" class="d-flex align-items-center text-decoration-none text-gray-800">
+                            <i class="fa fa-briefcase fa-lg me-3 text-green-600"></i>
+                            <span>Projetos</span>
+                        </a>
+                    </li>
+                    <li class="mb-3">
+                        <a href="#mensagens" class="d-flex align-items-center text-decoration-none text-gray-800">
+                            <i class="fa fa-envelope fa-lg me-3 text-red-600"></i>
+                            <span>Mensagens</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#vida" class="d-flex align-items-center text-decoration-none text-gray-800">
+                            <i class="fa fa-heart fa-lg me-3 text-purple-600"></i>
+                            <span>Vida</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+    
+            <!-- Main Dashboard -->
+            <main class="flex-grow p-5">
+                <h2 class="text-gray-800 text-3xl font-bold mb-4">Bem-vindo ao FlowOps Dashboard</h2>
+                <p class="text-gray-600">Escolha uma opção no menu lateral para começar.</p>
+            </main>
         </div>
-    </header>
+    
+        <!-- Modal para Configurações -->
+        <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-xl w-96">
+                <h3 class="text-xl font-bold text-gray-800">Configurações de Conta</h3>
+                <div class="mt-4">
+                    <button id="change-password" class="w-full p-2 bg-blue-600 text-white rounded-lg mb-2">Alterar Senha</button>
+                    <button id="delete-account" class="w-full p-2 bg-red-600 text-white rounded-lg mb-2">Excluir Conta</button>
+                    <button id="logout" class="w-full p-2 bg-gray-600 text-white rounded-lg">Sair</button>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Notification -->
+        <div id="notification" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg hidden">
+            <i class="fa fa-check-circle"></i> Conta autenticada com sucesso!
+        </div>
 
-    <!-- Main Content -->
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <aside class="bg-white shadow-sm vh-100 p-3" style="width: 250px;">
-            <ul class="list-unstyled">
-                <li class="mb-3">
-                    <a href="#perfil" class="d-flex align-items-center text-decoration-none text-gray-800">
-                        <i class="fa fa-user fa-lg me-3 text-blue-600"></i>
-                        <span>Perfil</span>
-                    </a>
-                </li>
-                <li class="mb-3">
-                    <a href="#projetos" class="d-flex align-items-center text-decoration-none text-gray-800">
-                        <i class="fa fa-briefcase fa-lg me-3 text-green-600"></i>
-                        <span>Projetos</span>
-                    </a>
-                </li>
-                <li class="mb-3">
-                    <a href="#mensagens" class="d-flex align-items-center text-decoration-none text-gray-800">
-                        <i class="fa fa-envelope fa-lg me-3 text-red-600"></i>
-                        <span>Mensagens</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#vida" class="d-flex align-items-center text-decoration-none text-gray-800">
-                        <i class="fa fa-heart fa-lg me-3 text-purple-600"></i>
-                        <span>Vida</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
-
-        <!-- Main Dashboard -->
-        <main class="flex-grow p-5">
-            <h2 class="text-gray-800 text-3xl font-bold mb-4">Bem-vindo ao FlowOps Dashboard</h2>
-            <p class="text-gray-600">Escolha uma opção no menu lateral para começar.</p>
-        </main>
-    </div>
-
+        
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="dashboard.js"></script>
