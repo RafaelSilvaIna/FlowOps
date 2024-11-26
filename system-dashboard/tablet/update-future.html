@@ -1,121 +1,187 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlowOps - Versão Tablet</title>
+    <meta name="description" content="Documentação oficial sobre a futura versão do FlowOps para tablets, programada para 2025.">
+    <title>Documentação - FlowOps Tablets</title>
     
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Feather Icons -->
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- AOS (Animate on Scroll) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <style>
         body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #000;
-            color: white;
+            font-family: 'Arial', sans-serif;
         }
-        #cosmo-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+        .nav-link:hover {
+            text-decoration: underline;
         }
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            text-align: center;
+        .feature-card {
+            background-color: #1f2937;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease;
         }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        .feature-card:hover {
+            transform: translateY(-10px);
         }
-        p {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-        .icon {
-            display: inline-block;
-            width: 64px;
-            height: 64px;
-            margin-bottom: 1rem;
+        .highlight {
+            color: #2563eb;
+            font-weight: bold;
         }
     </style>
 </head>
-<body>
-    <!-- Cenário 3D -->
-    <div id="cosmo-background"></div>
-    
-    
-    <div class="content">
-        <i data-feather="tablet" class="icon"></i>
-        <h1 class="font-bold text-3xl">FlowOps - Versão Tablet</h1>
-        <p class="text-xl">
-            Estamos trabalhando para lançar a versão do FlowOps para tablets. <br>
-            Fique atento às próximas atualizações!
-        </p>
-     <a href="../../doc/future-updates/tablet-update.html"><button class="bg-blue-600 px-6 py-2 text-lg text-white rounded-lg hover:bg-blue-700">
-            Saiba Mais
-        </button></a>
-    </div>
+<body class="bg-gray-900 text-white">
 
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black py-3 shadow-lg">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white" href="#">FlowOps Tablets</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#overview">Visão Geral</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Principais Recursos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#roadmap">Roadmap</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-16 bg-gradient-to-r from-blue-600 to-purple-700 text-center">
+        <h1 class="text-5xl font-bold">FlowOps 2.0.0 para Tablets</h1>
+        <p class="text-xl mt-4">Uma experiência inovadora e otimizada para tablets, projetada para você.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-5">
+
+        <!-- Overview Section -->
+        <section id="overview" class="my-12" data-aos="fade-up">
+            <h2 class="text-3xl font-bold text-center mb-6">Visão Geral</h2>
+            <p class="text-center text-lg mb-8">
+                O FlowOps 2.0.0 trará suporte completo e dedicado para <span class="highlight">tablets</span>, combinando design responsivo, desempenho otimizado e funcionalidades personalizadas.
+            </p>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <img src="https://via.placeholder.com/500x300" alt="Tablet Design" class="rounded shadow">
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <p class="text-lg">
+                        A versão para tablets será projetada com foco na <span class="highlight">experiência do usuário</span>. 
+                        Ela terá layouts adaptativos, controles de toque otimizados e uma interface que se ajusta perfeitamente ao tamanho e à resolução do dispositivo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="my-12">
+            <h2 class="text-3xl font-bold text-center mb-6" data-aos="fade-down">Principais Recursos</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="zoom-in">
+                    <div class="feature-card text-center">
+                        <i class="fa fa-tablet text-blue-600 fa-2x mb-3"></i>
+                        <h4>Interface Personalizada</h4>
+                        <p>Uma interface projetada exclusivamente para tablets, com navegação simplificada e controles intuitivos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="zoom-in">
+                    <div class="feature-card text-center">
+                        <i class="fa fa-layer-group text-purple-600 fa-2x mb-3"></i>
+                        <h4>Design Responsivo</h4>
+                        <p>Layout adaptável para diferentes tamanhos e resoluções de tela.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="zoom-in">
+                    <div class="feature-card text-center">
+                        <i class="fa fa-bolt text-yellow-600 fa-2x mb-3"></i>
+                        <h4>Desempenho Avançado</h4>
+                        <p>Carregamento rápido e otimização para uso multitarefa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap Section -->
+        <section id="roadmap" class="my-12">
+            <h2 class="text-3xl font-bold text-center mb-6" data-aos="fade-right">Roadmap</h2>
+            <ul class="list-group bg-gray-800 rounded shadow">
+                <li class="list-group-item bg-gray-900 text-white" data-aos="fade-up">
+                    <strong>Q1 2024:</strong> Início do desenvolvimento e testes iniciais.
+                </li>
+                <li class="list-group-item bg-gray-900 text-white" data-aos="fade-up">
+                    <strong>Q3 2024:</strong> Interface para tablets completa.
+                </li>
+                <li class="list-group-item bg-gray-900 text-white" data-aos="fade-up">
+                    <strong>Q1 2025:</strong> Testes finais e otimizações.
+                </li>
+                <li class="list-group-item bg-gray-900 text-white" data-aos="fade-up">
+                    <strong>Março 2025:</strong> Lançamento oficial da versão 2.0.0.
+                </li>
+            </ul>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="my-12">
+            <h2 class="text-3xl font-bold text-center mb-6" data-aos="fade-left">FAQ</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item bg-gray-800 text-white">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button bg-gray-800 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Quando o suporte para tablets estará disponível?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            O suporte completo para tablets será lançado em março de 2025 com a versão 2.0.0.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item bg-gray-800 text-white">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button bg-gray-800 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            O que acontece se eu usar um tablet antes da versão 2.0.0?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            O FlowOps funcionará com o design padrão, mas sem a otimização específica para tablets.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 bg-black text-white">
+        <p>&copy; 2024 FlowOps. Todos os direitos reservados. Lançamento previsto para março de 2025.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        // Substituir ícones Feather
-        feather.replace();
-
-      
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('cosmo-background').appendChild(renderer.domElement);
-
-        
-        const starGeometry = new THREE.BufferGeometry();
-        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
-        const starVertices = [];
-        
-        for (let i = 0; i < 5000; i++) {
-            const x = (Math.random() - 0.5) * 2000;
-            const y = (Math.random() - 0.5) * 2000;
-            const z = (Math.random() - 0.5) * 2000;
-            starVertices.push(x, y, z);
-        }
-
-        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-        const stars = new THREE.Points(starGeometry, starMaterial);
-        scene.add(stars);
-
-        camera.position.z = 500;
-
-        
-        function animate() {
-            requestAnimationFrame(animate);
-            stars.rotation.x += 0.0001;
-            stars.rotation.y += 0.0002;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-       
-        window.addEventListener('resize', () => {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            renderer.setSize(width, height);
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-        });
+        AOS.init(); // Initialize AOS animations
     </script>
 </body>
 </html>
