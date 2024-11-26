@@ -19,7 +19,7 @@ const auth = getAuth(app);
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        window.location.href = "dashboard.html";
+        window.location.href = "../../system-acesssystem-main/AcessSecurity.html";
     } else {
         console.log("Usuário não autenticado");
     }

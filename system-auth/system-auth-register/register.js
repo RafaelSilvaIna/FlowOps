@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await firebase.database().ref('users/' + user.uid).set(userData);
 
             showNotification('Cadastro realizado com sucesso! Verifique seu email para ativar sua conta.', 'success');
-            //window.location.href = 'login.html';
+            window.location.href = '../system-auth-login/login.html';
         } catch (error) {
             console.error('Erro no cadastro:', error);
             showNotification('Erro no cadastro: ' + error.message, 'error');

@@ -61,7 +61,7 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         statusMessage.textContent = 'Authentication successful. Redirecting...';
         setTimeout(() => {
-            window.location.href = '/dashboard.html';
+            window.location.href = '../../system-acess/system-main/AcessSecuriry,html';
         }, 2000);
     } else {
         statusMessage.textContent = 'Not authenticated. Redirecting to login...';
