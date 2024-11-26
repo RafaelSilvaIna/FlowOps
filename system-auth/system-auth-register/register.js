@@ -122,8 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Salvar dados no Realtime Database
             await firebase.database().ref('users/' + user.uid).set(userData);
 
-            alert('Cadastro realizado com sucesso!');
-            window.location.href = 'login.html';
+            console.log('Cadastro realizado com sucesso!');
+            window.location.href = '../system-auth-login/login.html';
         } catch (error) {
             console.error('Erro no cadastro:', error);
             alert('Erro no cadastro: ' + error.message);
