@@ -1,0 +1,29 @@
+/* Custom Styles */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+header span {
+    font-size: 0.85rem;
+    color: #6b7280; /* Tailwind Gray-500 */
+}
+
+aside ul li a {
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+aside ul li a:hover {
+    background-color: #e5e7eb; 
+    color: #1f2937;
+}
+
+aside ul li a i {
+    font-size: 1.25rem;
+}
