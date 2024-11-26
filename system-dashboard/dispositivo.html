@@ -58,11 +58,11 @@
     <!-- Script para Detecção -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            feather.replace(); // Substitui ícones Feather
+            feather.replace(); 
 
-            // Detecta dispositivo com Mobile-Detect.js
+          
             const md = new MobileDetect(window.navigator.userAgent);
-            let deviceType = "desktop"; // Default é desktop
+            let deviceType = "desktop";
 
             if (md.phone()) {
                 deviceType = "mobile";
@@ -70,7 +70,7 @@
                 deviceType = "tablet";
             }
 
-            // Redireciona baseado no tipo de dispositivo
+            
             setTimeout(() => {
                 if (deviceType === "mobile") {
                     window.location.href = "mobile.html";
@@ -79,7 +79,7 @@
                 } else {
                     window.location.href = "desktop.html";
                 }
-            }, 3000); // Espera 3 segundos antes de redirecionar
+            }, 3000); 
         });
     </script>
 
