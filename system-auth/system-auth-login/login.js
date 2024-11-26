@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (ciuInput === userData.ciu) {
             // CIU correto, redirecionar para a página principal
-            window.location.href = 'dashboard.html';
+            window.location.href = '../../system-acess/system-main/AcessSecurity.html';
         } else {
             loginAttempts++;
             if (loginAttempts >= 3) {
