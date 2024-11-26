@@ -48,3 +48,31 @@ aside ul li a i {
 #notification i {
     margin-right: 10px;
 }
+
+/* Estilos para a seção de informações do usuário */
+#user-info-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#user-info {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+#toggle-user-info {
+    transition: background-color 0.3s ease;
+}
+
+#toggle-user-info:hover {
+    background-color: #2b6cb0; /* Cor mais escura de azul */
+}
+
+@media (max-width: 768px) {
+    #user-info-section {
+        padding: 20px;
+    }
+}
