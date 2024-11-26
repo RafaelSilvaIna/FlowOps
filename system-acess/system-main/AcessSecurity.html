@@ -1,45 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seguranca|FlowOps</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>FlowOp - Verificação de Segurança</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link href="AcessSecurity.css" rel="stylesheet">
+    <style>
+        #space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .loader-dot {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-900 text-white overflow-hidden">
     <div id="space-background"></div>
-    <div class="container">
-        <div class="security-check">
-            <h2 class="text-center mb-4">Verificação de Segurança</h2>
-            <p id="status">Aguardando permissão para iniciar a verificação...</p>
-            <div class="progress">
-                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    
+    <div id="permission-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-xl text-center max-w-md">
+            <i data-feather="shield" class="w-16 h-16 text-blue-600 mx-auto mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Verificação de Segurança</h2>
+            <p class="text-gray-600 mb-6">Precisamos realizar uma verificação de segurança. Você autoriza a análise de suas informações de navegação?</p>
+            
+            <div class="flex space-x-4 justify-center">
+                <button id="allow-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    Permitir
+                </button>
+                <button id="deny-btn" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                    Negar
+                </button>
             </div>
-            <button id="start-check" class="btn btn-primary mt-3">Iniciar Verificação</button>
-        </div>
-    </div>
-
-    <div id="modal">
-        <div class="modal-content">
-            <h3>Verificação Concluída</h3>
-            <p>A verificação de segurança foi concluída. Deseja baixar o relatório em PDF?</p>
-            <button id="download-pdf" class="btn btn-primary">Baixar PDF</button>
-            <button id="close-modal" class="btn btn-secondary">Fechar</button>
-            <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" id="dont-show-again">
-                <label class="form-check-label" for="dont-show-again">
+            
+            <div class="mt-4">
+                <label class="text-gray-700 flex items-center justify-center">
+                    <input type="checkbox" id="never-show-again" class="mr-2">
                     Não mostrar novamente
                 </label>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js@1.0.2/src/ua-parser.min.js"></script>
-    <script src="AcessSecurity.js"></script>
+    <div id="verification-screen" class="hidden fixed inset-0 flex flex-col items-center justify-center">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold mb-8">Verificando Segurança</h1>
+            <div class="flex justify-center space-x-4 mb-8">
+                <div id="ip-check" class="loader-dot p-2 bg-blue-500 rounded-full"></div>
+                <div id="browser-check" class="loader-dot p-2 bg-green-500 rounded-full"></div>
+                <div id="network-check" class="loader-dot p-2 bg-purple-500 rounded-full"></div>
+                <div id="security-check" class="loader-dot p-2 bg-yellow-500 rounded-full"></div>
+            </div>
+            
+            <div class="w-96 bg-gray-700 rounded-full h-4 mb-4">
+                <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+            </div>
+            
+            <p id="status-text" class="text-xl">Iniciando verificação...</p>
+        </div>
+    </div>
+
+    <div id="report-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center hidden">
+        <div class="bg-white p-8 rounded-xl text-center max-w-md">
+            <i data-feather="check-circle" class="w-16 h-16 text-green-600 mx-auto mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Verificação Concluída</h2>
+            <p class="text-gray-600 mb-6">Seu sistema foi verificado e nenhuma ameaça foi detectada.</p>
+            
+            <div class="flex space-x-4 justify-center">
+                <button id="download-report" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    Baixar Relatório
+                </button>
+                <button id="continue-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                    Continuar
+                </button>
+            </div>
+            
+            <div class="mt-4">
+                <label class="text-gray-700 flex items-center justify-center">
+                    <input type="checkbox" id="no-show-report" class="mr-2">
+                    Não mostrar novamente
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Space Background
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('space-background').appendChild(renderer.domElement);
+
+        // Stars
+        const starGeometry = new THREE.BufferGeometry();
+        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
+        const starVertices = [];
+
+        for (let i = 0; i < 10000; i++) {
+            const x = (Math.random() - 0.5) * 2000;
+            const y = (Math.random() - 0.5) * 2000;
+            const z = (Math.random() - 0.5) * 2000;
+            starVertices.push(x, y, z);
+        }
+
+        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+        const stars = new THREE.Points(starGeometry, starMaterial);
+        scene.add(stars);
+
+        camera.position.z = 500;
+
+        function animateSpace() {
+            requestAnimationFrame(animateSpace);
+            stars.rotation.x += 0.0001;
+            stars.rotation.y += 0.0002;
+            renderer.render(scene, camera);
+        }
+        animateSpace();
+
+        // Security Verification Logic
+        const permissionModal = document.getElementById('permission-modal');
+        const verificationScreen = document.getElementById('verification-screen');
+        const reportModal = document.getElementById('report-modal');
+        const progressBar = document.getElementById('progress-bar');
+        const statusText = document.getElementById('status-text');
+
+        const checks = {
+            ip: document.getElementById('ip-check'),
+            browser: document.getElementById('browser-check'),
+            network: document.getElementById('network-check'),
+            security: document.getElementById('security-check')
+        };
+
+        // Permission Modal Handlers
+        document.getElementById('allow-btn').addEventListener('click', () => {
+            if (document.getElementById('never-show-again').checked) {
+                localStorage.setItem('skipSecurityCheck', 'true');
+            }
+            permissionModal.classList.add('hidden');
+            verificationScreen.classList.remove('hidden');
+            startSecurityCheck();
+        });
+
+        document.getElementById('deny-btn').addEventListener('click', () => {
+            alert('Acesso negado. Sem permissão para continuar.');
+            window.location.href = 'about:blank';
+        });
+
+        // Security Check Functions
+        function simulateCheck(checkElement, duration) {
+            return new Promise(resolve => {
+                checkElement.classList.add('bg-green-500');
+                setTimeout(resolve, duration);
+            });
+        }
+
+        async function startSecurityCheck() {
+            const totalDuration = 10000;
+            const checkDurations = [2500, 2500, 2500, 2500];
+
+            statusText.textContent = 'Verificando IP e localização...';
+            await simulateCheck(checks.ip, checkDurations[0]);
+            progressBar.style.width = '25%';
+
+            statusText.textContent = 'Analisando configurações do navegador...';
+            await simulateCheck(checks.browser, checkDurations[1]);
+            progressBar.style.width = '50%';
+
+            statusText.textContent = 'Verificando configurações de rede...';
+            await simulateCheck(checks.network, checkDurations[2]);
+            progressBar.style.width = '75%';
+
+            statusText.textContent = 'Verificação final de segurança...';
+            await simulateCheck(checks.security, checkDurations[3]);
+            progressBar.style.width = '100%';
+
+            statusText.textContent = 'Verificação concluída com sucesso!';
+            verificationScreen.classList.add('hidden');
+            reportModal.classList.remove('hidden');
+        }
+
+        // Report Modal Handlers
+        document.getElementById('download-report').addEventListener('click', () => {
+            const reportData = {
+                timestamp: new Date().toISOString(),
+                ipChecked: true,
+                browserSafe: true,
+                networkSecure: true
+            };
+            
+            const blob = new Blob([JSON.stringify(reportData, null, 2)], {type: 'application/json'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'security_report.json';
+            link.click();
+        });
+
+        document.getElementById('continue-btn').addEventListener('click', () => {
+            if (document.getElementById('no-show-report').checked) {
+                localStorage.setItem('skipReportModal', 'true');
+            }
+            window.location.href = 'dashboard.html'; // Substitua pelo seu dashboard
+        });
+
+        // Initial Check
+        window.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            if (localStorage.getItem('skipSecurityCheck') === 'true') {
+                verificationScreen.classList.remove('hidden');
+                startSecurityCheck();
+            } else {
+                permissionModal.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
+Last edited just now
+
+
