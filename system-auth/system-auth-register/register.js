@@ -42,7 +42,7 @@ function initBackground() {
 }
 
 
- Configuração do Three.js para o fundo 3D
+ // Configuração do Three.js para o fundo 3D
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
