@@ -14,18 +14,15 @@ const firebaseConfig = {
   measurementId: "G-KHZ92X24C4"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Three.js setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('background').appendChild(renderer.domElement);
 
-// Create stars
 const starsGeometry = new THREE.BufferGeometry();
 const starsMaterial = new THREE.PointsMaterial({color: 0xFFFFFF});
 
@@ -64,12 +61,12 @@ onAuthStateChanged(auth, (user) => {
     if (user) {
         statusMessage.textContent = 'Authentication successful. Redirecting...';
         setTimeout(() => {
-            window.location.href = '/dashboard.html'; // Redirect to dashboard
+            window.location.href = '/dashboard.html';
         }, 2000);
     } else {
         statusMessage.textContent = 'Not authenticated. Redirecting to login...';
         setTimeout(() => {
-            window.location.href = '/login.html'; // Redirect to login page
+            window.location.href = '../system-auth-register/register.html'; 
         }, 2000);
     }
 });
