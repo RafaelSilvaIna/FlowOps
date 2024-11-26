@@ -50,38 +50,95 @@ async function getUserIp() {
 }
 
 let loginAttempts = 0;
+let userIpAddress = null;
+
+// Add this function for filtered notifications:
+function showNotification(message, type) {
+  const notificationElement = document.getElementById('notification');
+  notificationElement.textContent = message;
+  notificationElement.className = `notification ${type}`;
+  notificationElement.style.display = 'block';
+  setTimeout(() => {
+    notificationElement.style.display = 'none';
+  }, 5000);
+}
+
+// Update the loginUser function:
+async function loginUser() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const ciu = document.getElementById('ciu').value;
+  userIpAddress = await getUserIp();
+
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      firebase.database().ref('users/' + user.uid).once('value')
+        .then((snapshot) => {
+          const userData = snapshot.val();
+          if (userData && userData.ciu === ciu) {
+            if (userData.ipAddress && userData.ipAddress !== userIpAddress) {
+              showNotification('IP não reconhecido. Verifique seu email para autorizar este novo IP.', 'warning');
+              sendIpVerificationEmail(user.email, userIpAddress);
+            } else {
+              firebase.database().ref('users/' + user.uid).update({
+                ipAddress: userIpAddress,
+                lastLogin: new Date().toISOString()
+              });
+              showNotification('Login bem-sucedido!', 'success');
+              setTimeout(() => {
+                window.location.href = 'dashboard.html';
+              }, 2000);
+            }
+          } else {
+            showNotification('CIU inválida. Tente novamente.', 'error');
+          }
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      showNotification('Erro no login. Verifique suas credenciais.', 'error');
+    });
+}
+
+// Add this function to send IP verification email:
+function sendIpVerificationEmail(email, newIp) {
+  // Implement email sending logic here
+  console.log(`Sending IP verification email to ${email} for IP: ${newIp}`);
+}
+
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+         const email = document.getElementById('email').value;
+         const password = document.getElementById('password').value;
 
-        try {
-            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-            const user = userCredential.user;
+         try {
+             const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+             const user = userCredential.user;
 
-            // Verificar IP e CIU
+             // Verificar IP e CIU
             const userData = (await firebase.database().ref('users/' + user.uid).once('value')).val();
             const currentIp = await getUserIp();
 
-            if (userData.ip !== currentIp) {
-                new bootstrap.Modal(document.getElementById('blockModal')).show();
-                return;
-            }
+             if (userData.ip !== currentIp) {
+                 new bootstrap.Modal(document.getElementById('blockModal')).show();
+                 return;
+             }
 
-            if (userData.ciuAtivado) {
-                new bootstrap.Modal(document.getElementById('ciuVerificationModal')).show();
-            } else {
-                // Login bem-sucedido, redirecionar para a página principal
-                window.location.href = 'dashboard.html';
-            }
+             if (userData.ciuAtivado) {
+                 new bootstrap.Modal(document.getElementById('ciuVerificationModal')).show();
+             } else {
+                 // Login bem-sucedido, redirecionar para a página principal
+                 window.location.href = 'dashboard.html';
+             }
         } catch (error) {
             console.error('Erro no login:', error);
-            alert('Erro no login: ' + error.message);
-        }
-    });
+             alert('Erro no login: ' + error.message);
+         }
+     });
 
     document.getElementById('verifyCIU').addEventListener('click', async () => {
         const ciuInput = document.getElementById('ciuInput').value;
