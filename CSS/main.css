@@ -462,3 +462,42 @@ body {
   .btn:hover {
     background-color: #0056b3;
   }
+
+  /*secao de contato*/
+  body {
+    background-color: #f8f9fa;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    display: none;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.notification.success {
+    background-color: #28a745;
+}
+
+.notification.error {
+    background-color: #dc3545;
+}
+
+.notification i {
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .notification {
+        left: 20px;
+        right: 20px;
+        text-align: center;
+    }
+}
+

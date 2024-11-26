@@ -196,3 +196,64 @@ gsap.from(".section", {
     ease: "bounce.out",
     delay: 1,
   });
+
+  // secao de contato com a api
+  document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notificationMessage');
+
+    function showNotification(message, isSuccess) {
+        notificationMessage.textContent = message;
+        notification.classList.add(isSuccess ? 'success' : 'error');
+        notification.style.display = 'block';
+        notification.style.opacity = '1';
+
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.style.display = 'none';
+                notification.classList.remove('success', 'error');
+            }, 500);
+        }, 3000);
+    }
+
+    async function sendFormData() {
+        const name = document.getElementById('name').value;
+        const subject = document.getElementById('subject').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+
+        const data = { name, subject, email, message };
+
+        try {
+            const response = await fetch('https://checkered-root-rhinoceros.glitch.me/submit-contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Dados enviados com sucesso:', result);
+                showNotification('Sua mensagem foi enviada com sucesso!', true);
+                contactForm.reset();
+            } else {
+                const error = await response.json();
+                console.error('Erro ao enviar dados:', error);
+                showNotification('Ocorreu um erro ao enviar sua mensagem. Tente novamente.', false);
+            }
+        } catch (error) {
+            console.error('Erro na comunicação com a API:', error);
+            showNotification('Ocorreu um erro. Verifique sua conexão e tente novamente.', false);
+        }
+    }
+
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        sendFormData();
+    });
+});
+
