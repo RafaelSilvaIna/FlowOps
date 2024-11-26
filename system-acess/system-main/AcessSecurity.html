@@ -95,46 +95,6 @@
     </div>
 
     <script>
-        // Three.js Space Background
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('space-background').appendChild(renderer.domElement);
-
-        // Stars
-        const starGeometry = new THREE.BufferGeometry();
-        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
-        const starVertices = [];
-
-        for (let i = 0; i < 10000; i++) {
-            const x = (Math.random() - 0.5) * 2000;
-            const y = (Math.random() - 0.5) * 2000;
-            const z = (Math.random() - 0.5) * 2000;
-            starVertices.push(x, y, z);
-        }
-
-        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-        const stars = new THREE.Points(starGeometry, starMaterial);
-        scene.add(stars);
-
-        camera.position.z = 500;
-
-        function animateSpace() {
-            requestAnimationFrame(animateSpace);
-            stars.rotation.x += 0.0001;
-            stars.rotation.y += 0.0002;
-            renderer.render(scene, camera);
-        }
-        animateSpace();
-
-        // Security Verification Logic
-        const permissionModal = document.getElementById('permission-modal');
-        const verificationScreen = document.getElementById('verification-screen');
-        const reportModal = document.getElementById('report-modal');
-        const progressBar = document.getElementById('progress-bar');
-        const statusText = document.getElementById('status-text');
-
         const checks = {
             ip: document.getElementById('ip-check'),
             browser: document.getElementById('browser-check'),
@@ -142,91 +102,65 @@
             security: document.getElementById('security-check')
         };
 
-        // Permission Modal Handlers
-        document.getElementById('allow-btn').addEventListener('click', () => {
-            if (document.getElementById('never-show-again').checked) {
-                localStorage.setItem('skipSecurityCheck', 'true');
+        const progressBar = document.getElementById('progress-bar');
+        const statusText = document.getElementById('status-text');
+
+        async function fetchIPAddress() {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip;
+        }
+
+        function analyzeBrowser() {
+            return {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                cookiesEnabled: navigator.cookieEnabled
+            };
+        }
+
+        async function testNetworkConnectivity() {
+            const url = 'https://www.google.com/favicon.ico'; // Exemplo de teste de ping
+            const startTime = Date.now();
+            try {
+                await fetch(url, { method: 'HEAD', mode: 'no-cors' });
+                return Date.now() - startTime;
+            } catch {
+                return null;
             }
-            permissionModal.classList.add('hidden');
-            verificationScreen.classList.remove('hidden');
-            startSecurityCheck();
-        });
+        }
 
-        document.getElementById('deny-btn').addEventListener('click', () => {
-            alert('Acesso negado. Sem permissão para continuar.');
-            window.location.href = 'about:blank';
-        });
-
-        // Security Check Functions
-        function simulateCheck(checkElement, duration) {
-            return new Promise(resolve => {
-                checkElement.classList.add('bg-green-500');
-                setTimeout(resolve, duration);
-            });
+        function checkHTTPS() {
+            return location.protocol === 'https:';
         }
 
         async function startSecurityCheck() {
-            const totalDuration = 10000;
-            const checkDurations = [2500, 2500, 2500, 2500];
-
             statusText.textContent = 'Verificando IP e localização...';
-            await simulateCheck(checks.ip, checkDurations[0]);
+            const ip = await fetchIPAddress();
+            checks.ip.classList.add('bg-green-500');
             progressBar.style.width = '25%';
+            console.log(`IP: ${ip}`);
 
             statusText.textContent = 'Analisando configurações do navegador...';
-            await simulateCheck(checks.browser, checkDurations[1]);
+            const browserData = analyzeBrowser();
+            checks.browser.classList.add('bg-green-500');
             progressBar.style.width = '50%';
+            console.log('Dados do navegador:', browserData);
 
             statusText.textContent = 'Verificando configurações de rede...';
-            await simulateCheck(checks.network, checkDurations[2]);
+            const latency = await testNetworkConnectivity();
+            checks.network.classList.add('bg-green-500');
             progressBar.style.width = '75%';
+            console.log(`Latência de rede: ${latency}ms`);
 
             statusText.textContent = 'Verificação final de segurança...';
-            await simulateCheck(checks.security, checkDurations[3]);
+            const isSecure = checkHTTPS();
+            checks.security.classList.add('bg-green-500');
             progressBar.style.width = '100%';
-
-            statusText.textContent = 'Verificação concluída com sucesso!';
-            verificationScreen.classList.add('hidden');
-            reportModal.classList.remove('hidden');
+            console.log(`Conexão segura: ${isSecure}`);
         }
 
-        // Report Modal Handlers
-        document.getElementById('download-report').addEventListener('click', () => {
-            const reportData = {
-                timestamp: new Date().toISOString(),
-                ipChecked: true,
-                browserSafe: true,
-                networkSecure: true
-            };
-            
-            const blob = new Blob([JSON.stringify(reportData, null, 2)], {type: 'application/json'});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'security_report.json';
-            link.click();
-        });
-
-        document.getElementById('continue-btn').addEventListener('click', () => {
-            if (document.getElementById('no-show-report').checked) {
-                localStorage.setItem('skipReportModal', 'true');
-            }
-            window.location.href = 'dashboard.html'; // Substitua pelo seu dashboard
-        });
-
-        // Initial Check
-        window.addEventListener('DOMContentLoaded', () => {
-            feather.replace();
-
-            if (localStorage.getItem('skipSecurityCheck') === 'true') {
-                verificationScreen.classList.remove('hidden');
-                startSecurityCheck();
-            } else {
-                permissionModal.classList.remove('hidden');
-            }
-        });
+        window.onload = () => startSecurityCheck();
     </script>
 </body>
 </html>
-Last edited just now
-
-
