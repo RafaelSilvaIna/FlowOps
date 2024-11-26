@@ -123,13 +123,14 @@ document.addEventListener('DOMContentLoaded', () => {
             await firebase.database().ref('users/' + user.uid).set(userData);
 
             alert('Cadastro realizado com sucesso!');
-            window.location.href = '../system-auth-login/login.html';
+            window.location.href = 'login.html';
         } catch (error) {
             console.error('Erro no cadastro:', error);
             alert('Erro no cadastro: ' + error.message);
         }
     });
 
+    // Informações sobre IP
     document.getElementById('ipInfo').addEventListener('click', () => {
         window.location.href = 'explore.html';
     });
