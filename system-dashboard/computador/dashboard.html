@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -36,7 +37,18 @@
                                 <i class="fas fa-cog"></i> Configurações
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="reportBugBtn">
+                                <i class="fas fa-bug"></i> Reportar Bug
+                            </a>
+                        </li>
                     </ul>
+                    <div class="mt-auto p-3">
+                        <span class="text-muted">
+                            Otimizado para computador 
+                            <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Este dashboard é otimizado para laptops, notebooks e PCs. Veja a documentação do FlowOps para mais informações."></i>
+                        </span>
+                    </div>
                 </div>
             </nav>
 
@@ -46,11 +58,6 @@
                 <header class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Painel de Controle FlowOps</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" id="darkModeToggle">
-                                <i class="fas fa-moon"></i> Modo Escuro
-                            </button>
-                        </div>
                         <div id="authStatus" class="btn-group me-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
                                 <i class="fas fa-spinner fa-spin"></i> Verificando autenticação...
@@ -58,6 +65,19 @@
                         </div>
                     </div>
                 </header>
+
+                <!-- Nova seção de informações do usuário -->
+                <section id="userInfoSection" class="mb-4">
+                    <h3>Informações do Usuário <button id="toggleUserInfo" class="btn btn-sm btn-outline-secondary"><i class="fas fa-eye-slash"></i></button></h3>
+                    <div id="userInfoContent">
+                        <p><i class="fas fa-fingerprint"></i> UID: <span id="userUid"></span></p>
+                        <p><i class="fas fa-network-wired"></i> IP: <span id="userIp"></span></p>
+                        <p><i class="fas fa-globe"></i> Navegador: <span id="userBrowser"></span></p>
+                        <p><i class="fas fa-laptop"></i> Dispositivo: <span id="userDevice"></span></p>
+                        <p><i class="fas fa-code-branch"></i> Versão FlowOps: 1.0.0.4</p>
+                        <p><i class="fas fa-laptop-code"></i> Versão de otimização para notebook: 1.0.0.1</p>
+                    </div>
+                </section>
 
                 <!-- Área de conteúdo principal -->
                 <div id="mainContent">
@@ -67,7 +87,7 @@
 
                 <!-- Rodapé -->
                 <footer class="text-center mt-5">
-                    <p>Painel de Controle FlowOps v1.0.0</p>
+                    <p>Painel de Controle FlowOps v1.0.0.4</p>
                 </footer>
             </main>
         </div>
@@ -90,9 +110,35 @@
         </div>
     </div>
 
+    <!-- Modal de Reportar Bug -->
+    <div class="modal fade" id="reportBugModal" tabindex="-1" aria-labelledby="reportBugModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportBugModalLabel">Reportar Bug</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bugReportForm">
+                        <div class="mb-3">
+                            <label for="bugReportEmail" class="form-label">Seu Email</label>
+                            <input type="email" class="form-control" id="bugReportEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bugDescription" class="form-label">Descrição detalhada do bug</label>
+                            <textarea class="form-control" id="bugDescription" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar Relatório</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
     <script src="dashboard.js"></script>
 </body>
