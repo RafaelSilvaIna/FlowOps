@@ -1,17 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil Profissional - FlowOps</title>
+    
+    <!-- CSS Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --background-color: #f8f9fa;
+            --primary-color: #1a237e;
+            --secondary-color: #00c853;
+            --background-color: #f5f5f5;
+            --text-color: #333;
         }
 
         body {
@@ -19,202 +26,324 @@
             background-color: var(--background-color);
         }
 
-        #sidebar {
-            height: 100vh;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #343a40;
-            padding-top: 20px;
-            color: white;
-        }
-
-        #sidebar .nav-link {
-            color: white;
-            transition: all 0.3s;
-        }
-
-        #sidebar .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        #content {
-            margin-left: 250px;
-            padding: 20px;
-        }
-
-        #banner {
-            height: 200px;
+        #profile-banner {
+            height: 300px;
             background-size: cover;
             background-position: center;
             position: relative;
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
         }
 
-        #profile-picture {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid white;
+        .profile-note {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 300px;
+        }
+
+        .profile-picture-container {
             position: absolute;
             bottom: -75px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1;
         }
 
-        #user-info {
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .profile-info {
+            margin-top: 90px;
             text-align: center;
-            padding-top: 80px;
         }
 
-        .section {
-            background-color: white;
-            border-radius: 10px;
+        .profile-name {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .profile-fullname {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .bio-section {
+            margin: 20px auto;
+            max-width: 800px;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .social-links a {
-            font-size: 24px;
-            margin: 0 10px;
-            color: var(--primary-color);
-            transition: all 0.3s;
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
         }
 
-        .social-links a:hover {
-            color: var(--secondary-color);
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: transform 0.3s;
         }
 
-        #edit-profile-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
+        .social-link:hover {
+            transform: scale(1.1);
+        }
+
+        .projects-section {
+            margin: 40px auto;
+            max-width: 1200px;
         }
 
         .project-card {
-            border: none;
-            border-radius: 10px;
-            transition: all 0.3s;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
         }
 
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .specialty-badge {
-            font-size: 18px;
-            margin: 5px;
-            padding: 10px 15px;
-            border-radius: 25px;
+        .specialties-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 800px;
         }
 
-        #user-note {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            max-width: 200px;
+        .specialty-item {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .edit-profile-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .edit-profile-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .companies-section {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .company-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: white;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: margin-left 0.3s;
         }
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="#"><i class="fas fa-user"></i> Perfil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-cog"></i> Configurações</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Sair</a>
-            </li>
-        </ul>
-    </div>
-
-    <div id="content">
-        <div id="banner">
-            <div id="user-note">
-                <!-- Nota do usuário será inserida aqui via JavaScript -->
-            </div>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h3>FlowOps</h3>
         </div>
-        <img src="" alt="Foto de Perfil" id="profile-picture">
-        
-        <div id="user-info">
-            <h2 id="username">Nome de Usuário</h2>
-            <h4 id="full-name">Nome Completo</h4>
+        <div class="sidebar-menu">
+            <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="perfil.html" class="active"><i class="fas fa-user"></i> Perfil</a>
+            <a href="#"><i class="fas fa-project-diagram"></i> Projetos</a>
+            <a href="#"><i class="fas fa-cog"></i> Configurações</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a>
         </div>
+    </nav>
 
-        <div class="section" id="bio">
-            <h3>Biografia</h3>
-            <p id="bio-text"></p>
-        </div>
-
-        <div class="section">
-            <h3>Redes Sociais</h3>
-            <div class="social-links" id="social-links">
-                <!-- Links de redes sociais serão inseridos aqui via JavaScript -->
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Banner -->
+        <div id="profile-banner">
+            <div class="profile-note" id="profileNote"></div>
+            <div class="profile-picture-container">
+                <img src="/placeholder-profile.jpg" alt="Foto de Perfil" class="profile-picture" id="profilePicture">
             </div>
         </div>
 
-        <div class="section" id="work-experience">
-            <h3>Experiência Profissional</h3>
-            <!-- Experiências profissionais serão inseridas aqui via JavaScript -->
+        <!-- Profile Info -->
+        <div class="profile-info">
+            <h1 class="profile-name" id="username">Carregando...</h1>
+            <div class="profile-fullname" id="fullName">Carregando...</div>
         </div>
 
-        <div class="section" id="projects">
-            <h3>Projetos</h3>
-            <div class="row" id="projects-container">
-                <!-- Projetos serão inseridos aqui via JavaScript -->
-            </div>
+        <!-- Bio Section -->
+        <div class="bio-section" id="bioSection">
+            <div class="bio-content"></div>
         </div>
 
-        <div class="section" id="specialties">
-            <h3>Especialidades</h3>
-            <div id="specialties-container">
-                <!-- Especialidades serão inseridas aqui via JavaScript -->
-            </div>
+        <!-- Social Links -->
+        <div class="social-links" id="socialLinks"></div>
+
+        <!-- Companies Section -->
+        <div class="companies-section" id="companiesSection">
+            <h2>Experiência Profissional</h2>
+            <div id="companiesList"></div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="projects-section">
+            <h2>Projetos</h2>
+            <div class="row" id="projectsList"></div>
+        </div>
+
+        <!-- Specialties Section -->
+        <div class="specialties-section" id="specialtiesSection">
+            <h2>Especialidades</h2>
+            <div id="specialtiesList"></div>
         </div>
     </div>
 
-    <button id="edit-profile-btn" class="btn btn-primary btn-lg rounded-circle">
+    <!-- Edit Profile Button -->
+    <a href="system-edit/edit.html" class="edit-profile-btn">
         <i class="fas fa-plus"></i>
-    </button>
+    </a>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        // Configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDaffUTJnaBW7ppaHo_UQOBMHrlvMXTdGw",
-            authDomain: "flowops-7e9f0.firebaseapp.com",
-            databaseURL: "https://flowops-7e9f0-default-rtdb.firebaseio.com",
-            projectId: "flowops-7e9f0",
-            storageBucket: "flowops-7e9f0.firebasestorage.app",
-            messagingSenderId: "541008189245",
-            appId: "1:541008189245:web:58eeb67a2507ab0bb1d754",
-            measurementId: "G-KHZ92X24C4"
-        };
 
-        // Inicializar Firebase
+    <script>
+        // Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDaffUTJnaBW7ppaHo_UQOBMHrlvMXTdGw",
+  authDomain: "flowops-7e9f0.firebaseapp.com",
+  databaseURL: "https://flowops-7e9f0-default-rtdb.firebaseio.com",
+  projectId: "flowops-7e9f0",
+  storageBucket: "flowops-7e9f0.firebasestorage.app",
+  messagingSenderId: "541008189245",
+  appId: "1:541008189245:web:58eeb67a2507ab0bb1d754",
+  measurementId: "G-KHZ92X24C4"
+};
+
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Referência para o banco de dados
-        const database = firebase.database();
+        // DOM Elements
+        const profileBanner = document.getElementById('profile-banner');
+        const profilePicture = document.getElementById('profilePicture');
+        const username = document.getElementById('username');
+        const fullName = document.getElementById('fullName');
+        const bioSection = document.getElementById('bioSection');
+        const socialLinks = document.getElementById('socialLinks');
+        const companiesList = document.getElementById('companiesList');
+        const projectsList = document.getElementById('projectsList');
+        const specialtiesList = document.getElementById('specialtiesList');
+        const profileNote = document.getElementById('profileNote');
 
-        // Verificar autenticação
+        // Check authentication state
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 loadUserProfile(user.uid);
@@ -223,174 +352,171 @@
             }
         });
 
+        // Load user profile data
         function loadUserProfile(uid) {
-            database.ref('users/' + uid).once('value').then((snapshot) => {
+            const userRef = firebase.database().ref('users/' + uid);
+            userRef.on('value', (snapshot) => {
                 const userData = snapshot.val();
                 if (userData) {
-                    updateProfileUI(userData);
+                    updateProfile(userData);
                 }
             });
         }
 
-        function updateProfileUI(userData) {
-            // Atualizar banner
-            document.getElementById('banner').style.backgroundImage = `url(${userData.bannerImage || 'default-banner.jpg'})`;
+        // Update profile with user data
+        function updateProfile(userData) {
+            // Update banner
+            if (userData.banner) {
+                profileBanner.style.backgroundImage = `url(${userData.banner})`;
+            }
 
-            // Atualizar foto de perfil
-            document.getElementById('profile-picture').src = userData.profilePicture || 'default-profile.jpg';
+            // Update profile picture
+            if (userData.profilePicture) {
+                profilePicture.src = userData.profilePicture;
+            }
 
-            // Atualizar nome de usuário e nome completo
-            document.getElementById('username').textContent = userData.username || 'Nome de Usuário';
-            document.getElementById('full-name').textContent = userData.fullName || 'Nome Completo';
+            // Update name and username
+            username.textContent = userData.username || 'Usuário';
+            fullName.textContent = userData.fullName || '';
 
-            // Atualizar biografia
-            document.getElementById('bio-text').innerHTML = userData.bio || 'Nenhuma biografia disponível.';
+            // Update bio
+            if (userData.bio) {
+                bioSection.innerHTML = userData.bio;
+            }
 
-            // Atualizar redes sociais
-            updateSocialLinks(userData.socialLinks);
+            // Update social links
+            if (userData.socialLinks) {
+                updateSocialLinks(userData.socialLinks);
+            }
 
-            // Atualizar experiência profissional
-            updateWorkExperience(userData.workExperience);
+            // Update companies
+            if (userData.companies) {
+                updateCompanies(userData.companies);
+            }
 
-            // Atualizar projetos
-            updateProjects(userData.projects);
+            // Update projects
+            if (userData.projects) {
+                updateProjects(userData.projects);
+            }
 
-            // Atualizar especialidades
-            updateSpecialties(userData.specialties);
+            // Update specialties
+            if (userData.specialties) {
+                updateSpecialties(userData.specialties);
+            }
 
-            // Atualizar nota do usuário
-            updateUserNote(userData.userNote);
+            // Update profile note
+            if (userData.profileNote) {
+                updateProfileNote(userData.profileNote);
+            }
 
-            // Atualizar background
-            updateBackground(userData.background);
+            // Update background
+            if (userData.background) {
+                document.body.style.background = userData.background;
+            }
         }
 
-        function updateSocialLinks(socialLinks) {
-            const container = document.getElementById('social-links');
-            container.innerHTML = '';
-            if (socialLinks) {
-                for (const [platform, url] of Object.entries(socialLinks)) {
-                    if (url) {
-                        const icon = getSocialIcon(platform);
-                        container.innerHTML += `<a href="${url}" target="_blank"><i class="${icon}"></i></a>`;
-                    }
+        // Update social links
+        function updateSocialLinks(links) {
+            socialLinks.innerHTML = '';
+            Object.entries(links).forEach(([platform, url]) => {
+                if (url) {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.target = '_blank';
+                    link.className = `social-link ${platform}`;
+                    link.innerHTML = `<i class="fab fa-${platform}"></i>`;
+                    socialLinks.appendChild(link);
                 }
-            }
+            });
         }
 
-        function getSocialIcon(platform) {
-            const icons = {
-                facebook: 'fab fa-facebook',
-                twitter: 'fab fa-twitter',
-                linkedin: 'fab fa-linkedin',
-                instagram: 'fab fa-instagram',
-                github: 'fab fa-github',
-                youtube: 'fab fa-youtube',
-                twitch: 'fab fa-twitch'
-            };
-            return icons[platform] || 'fas fa-link';
+        // Update companies
+        function updateCompanies(companies) {
+            companiesList.innerHTML = '';
+            companies.forEach(company => {
+                const companyElement = document.createElement('div');
+                companyElement.className = 'company-card';
+                companyElement.innerHTML = `
+                    <h3>${company.name}</h3>
+                    <p>${company.role}</p>
+                    <p>${company.startDate}${company.endDate ? ` - ${company.endDate}` : ' - Atual'}</p>
+                `;
+                companiesList.appendChild(companyElement);
+            });
         }
 
-        function updateWorkExperience(workExperience) {
-            const container = document.getElementById('work-experience');
-            container.innerHTML = '<h3>Experiência Profissional</h3>';
-            if (workExperience && workExperience.length > 0) {
-                workExperience.forEach(job => {
-                    container.innerHTML += `
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">${job.company}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${job.position}</h6>
-                                <p class="card-text">
-                                    ${job.startDate} - ${job.endDate || 'Presente'}
-                                </p>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                container.innerHTML += '<p>Nenhuma experiência profissional cadastrada.</p>';
-            }
-        }
-
+        // Update projects
         function updateProjects(projects) {
-            const container = document.getElementById('projects-container');
-            container.innerHTML = '';
-            if (projects && projects.length > 0) {
-                projects.forEach(project => {
-                    container.innerHTML += `
-                        <div class="col-md-4 mb-4">
-                            <div class="card project-card">
-                                <img src="${project.image}" class="card-img-top" alt="${project.title}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${project.title}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted">${project.subtitle}</h6>
-                                    <p class="card-text">${project.description}</p>
-                                    ${project.link ? `<a href="${project.link}" class="btn btn-primary" target="_blank">Ver Projeto</a>` : ''}
-                                </div>
-                            </div>
+            projectsList.innerHTML = '';
+            projects.forEach(project => {
+                const projectElement = document.createElement('div');
+                projectElement.className = 'col-md-4 mb-4';
+                projectElement.innerHTML = `
+                    <div class="project-card">
+                        <img src="${project.image}" class="card-img-top" alt="${project.title}">
+                        <div class="card-body">
+                            <h5 class="card-title">${project.title}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${project.subtitle}</h6>
+                            <p class="card-text">${project.description}</p>
+                            ${project.link ? `<a href="${project.link}" class="btn btn-primary" target="_blank">Acessar Projeto</a>` : ''}
                         </div>
-                    `;
-                });
-            } else {
-                container.innerHTML = '<p>Nenhum projeto cadastrado.</p>';
-            }
+                    </div>
+                `;
+                projectsList.appendChild(projectElement);
+            });
         }
 
+        // Update specialties
         function updateSpecialties(specialties) {
-            const container = document.getElementById('specialties-container');
-            container.innerHTML = '';
-            if (specialties && specialties.length > 0) {
-                specialties.forEach(specialty => {
-                    container.innerHTML += `
-                        <span class="badge bg-primary specialty-badge" style="color: ${specialty.color};">
-                            <i class="${specialty.icon}"></i> ${specialty.name}
-                        </span>
-                    `;
-                });
-            } else {
-                container.innerHTML = '<p>Nenhuma especialidade cadastrada.</p>';
-            }
+            specialtiesList.innerHTML = '';
+            specialties.forEach(specialty => {
+                const specialtyElement = document.createElement('div');
+                specialtyElement.className = 'specialty-item';
+                specialtyElement.innerHTML = `
+                    <i class="${specialty.icon}" style="color: ${specialty.color}"></i>
+                    <span>${specialty.name}</span>
+                `;
+                specialtiesList.appendChild(specialtyElement);
+            });
         }
 
-        function updateUserNote(note) {
-            const noteElement = document.getElementById('user-note');
-            if (note && isNoteValid(note)) {
-                noteElement.textContent = note.text;
-                noteElement.style.display = 'block';
-            } else {
-                noteElement.style.display = 'none';
-            }
-        }
+        // Update profile note
+        function updateProfileNote(note) {
+            if (note && note.text && note.timestamp) {
+                const noteTimestamp = new Date(note.timestamp);
+                const currentTime = new Date();
+                const timeDiff = currentTime - noteTimestamp;
+                const hoursDiff = timeDiff / (1000 * 60 * 60);
 
-        function isNoteValid(note) {
-            const now = new Date();
-            const noteDate = new Date(note.timestamp);
-            const diffHours = (now - noteDate) / (1000 * 60 * 60);
-            return diffHours <= 24;
-        }
-
-        function updateBackground(background) {
-            const body = document.body;
-            if (background) {
-                if (background.type === 'color') {
-                    body.style.backgroundColor = background.value;
-                } else if (background.type === 'gradient') {
-                    body.style.background = background.value;
-                } else if (background.type === 'image' || background.type === 'gif') {
-                    body.style.backgroundImage = `url(${background.value})`;
-                    body.style.backgroundSize = 'cover';
-                    body.style.backgroundAttachment = 'fixed';
+                if (hoursDiff < 24) {
+                    profileNote.textContent = note.text;
+                    profileNote.style.display = 'block';
+                } else {
+                    profileNote.style.display = 'none';
                 }
+            } else {
+                profileNote.style.display = 'none';
             }
         }
 
-        document.getElementById('edit-profile-btn').addEventListener('click', () => {
-            window.location.href = 'editor.html';
-        });
-
-        // Inicializar AOS
+        // Initialize AOS
         AOS.init();
+
+        // Mobile sidebar toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.createElement('button');
+            menuToggle.className = 'menu-toggle btn btn-primary d-md-none';
+            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            menuToggle.style.position = 'fixed';
+            menuToggle.style.top = '10px';
+            menuToggle.style.left = '10px';
+            menuToggle.style.zIndex = '1001';
+            document.body.appendChild(menuToggle);
+
+            menuToggle.addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('active');
+            });
+        });
     </script>
 </body>
 </html>
