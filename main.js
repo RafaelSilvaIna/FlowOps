@@ -265,7 +265,7 @@ window.addEventListerner('DOMContentLoaded', () => {
         notification.classList.remove('hidden');
     }, 500);
 
-    closeButton.addEventLIsterner('click', () =. {
+    closeButton.addEventLIsterner('click', () => {
         notification.classList.add('hidden');
     });
 
