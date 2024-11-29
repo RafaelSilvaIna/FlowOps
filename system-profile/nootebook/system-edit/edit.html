@@ -1,667 +1,601 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor de Perfil - FlowOps</title>
-    
-    <!-- CSS Libraries -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-beta.0/dist/quill.snow.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.css" rel="stylesheet">
-    
+    <title>Editor de Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css">
     <style>
-        :root {
-            --primary-color: #1a237e;
-            --secondary-color: #00c853;
-            --background-color: #f5f5f5;
-            --text-color: #333;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background-color);
-        }
-
-        .editor-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .editor-section {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .dropzone {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-
-        .dropzone:hover {
-            border-color: var(--primary-color);
-        }
-
-        .color-picker-wrapper {
-            margin: 10px 0;
-        }
-
-        .preview-section {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-
-        .social-link-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .icon-picker {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-            gap: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .icon-option {
-            width: 40px;
+        .color-picker {
+            width: 100%;
             height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .icon-option:hover {
-            background-color: #f5f5f5;
-            transform: scale(1.1);
-        }
-
-        .icon-option.selected {
-            border-color: var(--primary-color);
-            background-color: #e3f2fd;
-        }
-
-        .save-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 15px 30px;
-            border-radius: 25px;
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
-        }
-
-        .save-button:hover {
-            transform: scale(1.05);
-        }
-
-        #quill-editor {
-            height: 200px;
         }
     </style>
 </head>
-<body>
-    <div class="editor-container">
-        <h1 class="mb-4">Editor de Perfil</h1>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-4">Editor de Perfil</h1>
+        
+        <form id="profileForm" class="space-y-6">
+            <!-- Banner -->
+            <div>
+                <label class="block mb-2 font-bold" for="banner">Banner</label>
+                <input type="file" id="banner" accept="image/*,video/*" class="w-full">
+                <div id="bannerPreview" class="mt-2 h-40 bg-gray-200 bg-cover bg-center"></div>
+            </div>
 
-        <!-- Banner Section -->
-        <div class="editor-section">
-            <h3>Banner do Perfil</h3>
-            <div id="bannerDropzone" class="dropzone">
-                <div class="dz-message">
-                    Arraste uma imagem ou GIF para o banner ou clique para selecionar
+            <!-- Profile Picture -->
+            <div>
+                <label class="block mb-2 font-bold" for="profilePicture">Foto de Perfil</label>
+                <input type="file" id="profilePicture" accept="image/*" class="w-full">
+                <div id="profilePicturePreview" class="mt-2 w-32 h-32 rounded-full bg-gray-200 bg-cover bg-center"></div>
+            </div>
+
+            <!-- User Name -->
+            <div>
+                <label class="block mb-2 font-bold" for="userName">Nome de Usuário</label>
+                <input type="text" id="userName" class="w-full p-2 border rounded">
+            </div>
+
+            <!-- Full Name -->
+            <div>
+                <label class="block mb-2 font-bold" for="fullName">Nome Completo</label>
+                <input type="text" id="fullName" class="w-full p-2 border rounded">
+            </div>
+
+            <!-- Note -->
+            <div>
+                <label class="block mb-2 font-bold" for="note">Nota (durará 24 horas)</label>
+                <textarea id="note" class="w-full p-2 border rounded"></textarea>
+            </div>
+
+            <!-- Biography -->
+            <div>
+                <label class="block mb-2 font-bold" for="biography">Biografia</label>
+                <div id="biography"></div>
+            </div>
+
+            <!-- Social Connections -->
+            <div>
+                <h2 class="text-xl font-bold mb-2">Conexões Sociais</h2>
+                <div id="socialConnections" class="space-y-2">
+                    <div class="flex items-center">
+                        <i class="fab fa-facebook fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do Facebook" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-twitter fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do Twitter" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-linkedin fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do LinkedIn" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-github fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do GitHub" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-instagram fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do Instagram" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-youtube fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do YouTube" class="w-full p-2 border rounded">
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fab fa-tiktok fa-2x mr-2"></i>
+                        <input type="url" placeholder="URL do TikTok" class="w-full p-2 border rounded">
+                    </div>
                 </div>
             </div>
-            <div class="mt-3">
-                <button class="btn btn-outline-primary" id="bannerColorBtn">Usar Cor Sólida</button>
-                <button class="btn btn-outline-primary" id="bannerGradientBtn">Usar Gradiente</button>
-            </div>
-            <div id="bannerColorPicker" class="color-picker-wrapper"></div>
-        </div>
 
-        <!-- Profile Picture Section -->
-        <div class="editor-section">
-            <h3>Foto de Perfil</h3>
-            <div id="profilePicDropzone" class="dropzone">
-                <div class="dz-message">
-                    Arraste uma imagem para a foto de perfil ou clique para selecionar
+            <!-- Work Experience -->
+            <div>
+                <h2 class="text-xl font-bold mb-2">Experiência Profissional</h2>
+                <div id="workExperience" class="space-y-4">
+                    <!-- Work experience items will be added here dynamically -->
+                </div>
+                <button type="button" id="addWorkExperience" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Adicionar Experiência</button>
+            </div>
+
+            <!-- Projects -->
+            <div>
+                <h2 class="text-xl font-bold mb-2">Projetos</h2>
+                <div id="projects" class="space-y-4">
+                    <!-- Project items will be added here dynamically -->
+                </div>
+                <button type="button" id="addProject" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Adicionar Projeto</button>
+            </div>
+
+            <!-- Specialties -->
+            <div>
+                <h2 class="text-xl font-bold mb-2">Especialidades</h2>
+                <div id="specialties" class="space-y-4">
+                    <!-- Specialty items will be added here dynamically -->
+                </div>
+                <button type="button" id="addSpecialty" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Adicionar Especialidade</button>
+            </div>
+
+            <!-- Background -->
+            <div>
+                <h2 class="text-xl font-bold mb-2">Fundo do Perfil</h2>
+                <select id="backgroundType" class="w-full p-2 border rounded">
+                    <option value="color">Cor Única</option>
+                    <option value="gradient">Gradiente</option>
+                    <option value="image">Imagem</option>
+                    <option value="gif">GIF</option>
+                    <option value="3d">3D</option>
+                </select>
+                <div id="backgroundOptions" class="mt-2">
+                    <!-- Background options will be added here dynamically based on the selected type -->
                 </div>
             </div>
-        </div>
 
-        <!-- Basic Info Section -->
-        <div class="editor-section">
-            <h3>Informações Básicas</h3>
-            <div class="mb-3">
-                <label for="username" class="form-label">Nome de Usuário</label>
-                <input type="text" class="form-control" id="username">
-            </div>
-            <div class="mb-3">
-                <label for="fullName" class="form-label">Nome Completo</label>
-                <input type="text" class="form-control" id="fullName">
-            </div>
-        </div>
-
-        <!-- Profile Note Section -->
-        <div class="editor-section">
-            <h3>Nota do Perfil (24 horas)</h3>
-            <div class="mb-3">
-                <input type="text" class="form-control" id="profileNote" placeholder="Digite uma nota temporária...">
-            </div>
-        </div>
-
-        <!-- Bio Section -->
-        <div class="editor-section">
-            <h3>Biografia</h3>
-            <div id="quill-editor"></div>
-            <div class="mt-3">
-                <label>Cor da Borda</label>
-                <div id="bioBorderColorPicker" class="color-picker-wrapper"></div>
-            </div>
-        </div>
-
-        <!-- Social Links Section -->
-        <div class="editor-section">
-            <h3>Redes Sociais</h3>
-            <div id="socialLinksContainer">
-                <!-- Social links will be dynamically added here -->
-            </div>
-            <button class="btn btn-primary mt-3" id="addSocialLink">Adicionar Rede Social</button>
-        </div>
-
-        <!-- Companies Section -->
-        <div class="editor-section">
-            <h3>Experiência Profissional</h3>
-            <div id="companiesContainer">
-                <!-- Companies will be dynamically added here -->
-            </div>
-            <button class="btn btn-primary mt-3" id="addCompany">Adicionar Empresa</button>
-        </div>
-
-        <!-- Projects Section -->
-        <div class="editor-section">
-            <h3>Projetos</h3>
-            <div id="projectsContainer">
-                <!-- Projects will be dynamically added here -->
-            </div>
-            <button class="btn btn-primary mt-3" id="addProject">Adicionar Projeto</button>
-        </div>
-
-        <!-- Specialties Section -->
-        <div class="editor-section">
-            <h3>Especialidades</h3>
-            <div id="specialtiesContainer">
-                <!-- Specialties will be dynamically added here -->
-            </div>
-            <button class="btn btn-primary mt-3" id="addSpecialty">Adicionar Especialidade</button>
-        </div>
-
-        <!-- Background Section -->
-        <div class="editor-section">
-            <h3>Plano de Fundo</h3>
-            <div class="mb-3">
-                <button class="btn btn-outline-primary" id="bgColorBtn">Cor Sólida</button>
-                <button class="btn btn-outline-primary" id="bgGradientBtn">Gradiente</button>
-                <button class="btn btn-outline-primary" id="bg3dBtn">Efeito 3D</button>
-            </div>
-            <div id="backgroundDropzone" class="dropzone">
-                <div class="dz-message">
-                    Arraste uma imagem ou GIF para o plano de fundo ou clique para selecionar
-                </div>
-            </div>
-            <div id="backgroundColorPicker" class="color-picker-wrapper"></div>
-        </div>
-
-        <button class="save-button" id="saveProfile">
-            <i class="fas fa-save"></i> Salvar Alterações
-        </button>
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Salvar Alterações</button>
+        </form>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-beta.0/dist/quill.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/min/dropzone.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-    <script>
-       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDaffUTJnaBW7ppaHo_UQOBMHrlvMXTdGw",
-  authDomain: "flowops-7e9f0.firebaseapp.com",
-  databaseURL: "https://flowops-7e9f0-default-rtdb.firebaseio.com",
-  projectId: "flowops-7e9f0",
-  storageBucket: "flowops-7e9f0.firebasestorage.app",
-  messagingSenderId: "541008189245",
-  appId: "1:541008189245:web:58eeb67a2507ab0bb1d754",
-  measurementId: "G-KHZ92X24C4"
-};
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDaffUTJnaBW7ppaHo_UQOBMHrlvMXTdGw",
+            authDomain: "flowops-7e9f0.firebaseapp.com",
+            databaseURL: "https://flowops-7e9f0-default-rtdb.firebaseio.com",
+            projectId: "flowops-7e9f0",
+            storageBucket: "flowops-7e9f0.firebasestorage.app",
+            messagingSenderId: "541008189245",
+            appId: "1:541008189245:web:58eeb67a2507ab0bb1d754",
+            measurementId: "G-KHZ92X24C4"
+        };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        let userId;
+
+        // Check if user is authenticated
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userId = user.uid;
+                // User is signed in, fetch profile data
+                const userRef = ref(db, 'users/' + user.uid);
+                onValue(userRef, (snapshot) => {
+                    const data = snapshot.val();
+                    populateForm(data);
+                });
+            } else {
+                // User is signed out, redirect to login page
+                window.location.href = 'login.html';
+            }
+        });
 
         // Initialize Quill editor
-        const quill = new Quill('#quill-editor', {
+        const quill = new Quill('#biography', {
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                     [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
                     [{ 'align': [] }],
-                    ['link'],
                     ['clean']
                 ]
             }
         });
 
-        // Initialize Dropzone instances
-        Dropzone.autoDiscover = false;
+        // Function to populate form with user data
+        function populateForm(data) {
+            if (data) {
+                document.getElementById('userName').value = data.userName || '';
+                document.getElementById('fullName').value = data.fullName || '';
+                document.getElementById('note').value = data.note ? data.note.text : '';
+                quill.root.innerHTML = data.biography || '';
 
-        const bannerDropzone = new Dropzone("#bannerDropzone", {
-            url: "/file/post",
-            acceptedFiles: "image/*",
-            maxFiles: 1,
-            autoProcessQueue: false,
-            init: function() {
-                this.on("addedfile", function(file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const base64String = e.target.result;
-                        // Save to Firebase
-                        saveImageToFirebase('banner', base64String);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
-
-        // Similar initialization for other Dropzone instances...
-
-        // Initialize color pickers
-        const pickrOptions = {
-            theme: 'classic',
-            swatches: [
-                'rgba(244, 67, 54, 1)',
-                'rgba(233, 30, 99, 1)',
-                'rgba(156, 39, 176, 1)',
-                'rgba(103, 58, 183, 1)',
-                'rgba(63, 81, 181, 1)',
-                'rgba(33, 150, 243, 1)',
-                'rgba(3, 169, 244, 1)'
-            ],
-            components: {
-                preview: true,
-                opacity: true,
-                hue: true,
-                interaction: {
-                    hex: true,
-                    rgba: true,
-                    input: true,
-                    save: true
+                if (data.banner) {
+                    document.getElementById('bannerPreview').style.backgroundImage = `url(${data.banner})`;
                 }
-            }
-        };
+                if (data.profilePicture) {
+                    document.getElementById('profilePicturePreview').style.backgroundImage = `url(${data.profilePicture})`;
+                }
 
-        const bannerColorPicker = Pickr.create({
-            el: '#bannerColorPicker',
-            ...pickrOptions
-        });
-
-        // Initialize other color pickers similarly...
-
-        // Save functions
-        function saveImageToFirebase(type, base64String) {
-            const user = firebase.auth().currentUser;
-            if (user) {
-                const updates = {};
-                updates[`users/${user.uid}/${type}`] = base64String;
-                firebase.database().ref().update(updates);
-            }
-        }
-
-        function saveProfile() {
-            const user = firebase.auth().currentUser;
-            if (!user) return;
-
-            const profileData = {
-                username: document.getElementById('username').value,
-                fullName: document.getElementById('fullName').value,
-                bio: quill.root.innerHTML,
-                profileNote: {
-                    text: document.getElementById('profileNote').value,
-                    timestamp: Date.now()
-                },
-                socialLinks: getSocialLinksData(),
-                companies: getCompaniesData(),
-                projects: getProjectsData(),
-                specialties: getSpecialtiesData(),
-                background: getBackgroundData()
-            };
-
-            firebase.database().ref('users/' + user.uid).update(profileData)
-                .then(() => {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Perfil Salvo!',
-                        text: 'Suas alterações foram salvas com sucesso.',
-                        showConfirmButton: false,
-                        timer: 1500
+                // Populate social connections
+                if (data.socialConnections) {
+                    const socialInputs = document.querySelectorAll('#socialConnections input');
+                    socialInputs.forEach(input => {
+                        const platform = input.placeholder.split(' ')[2].toLowerCase();
+                        input.value = data.socialConnections[platform] || '';
                     });
-                })
-                .catch((error) => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erro!',
-                        text: 'Ocorreu um erro ao salvar: ' + error.message
-                    });
-                });
-        }
-
-        // Helper functions to get form data
-        function getSocialLinksData() {
-            const socialLinks = {};
-            document.querySelectorAll('.social-link-item').forEach(item => {
-                const platform = item.querySelector('select').value;
-                const url = item.querySelector('input[type="url"]').value;
-                if (url) {
-                    socialLinks[platform] = url;
                 }
-            });
-            return socialLinks;
-        }
 
-        function getCompaniesData() {
-            const companies = [];
-            document.querySelectorAll('.company-item').forEach(item => {
-                companies.push({
-                    name: item.querySelector('.company-name').value,
-                    role: item.querySelector('.company-role').value,
-                    startDate: item.querySelector('.company-start-date').value,
-                    endDate: item.querySelector('.company-end-date').value || null
-                });
-            });
-            return companies;
-        }
-
-        function getProjectsData() {
-            const projects = [];
-            document.querySelectorAll('.project-item').forEach(item => {
-                const projectData = {
-                    title: item.querySelector('.project-title').value,
-                    subtitle: item.querySelector('.project-subtitle').value,
-                    description: item.querySelector('.project-description').value,
-                    image: item.querySelector('.project-image').getAttribute('data-base64') || null,
-                    link: item.querySelector('.project-link').value || null
-                };
-                if (projectData.title) {
-                    projects.push(projectData);
+                // Populate work experience
+                if (data.workExperience) {
+                    data.workExperience.forEach(job => addWorkExperienceItem(job));
                 }
-            });
-            return projects;
-        }
 
-        function getSpecialtiesData() {
-            const specialties = [];
-            document.querySelectorAll('.specialty-item').forEach(item => {
-                specialties.push({
-                    name: item.querySelector('.specialty-name').value,
-                    icon: item.querySelector('.specialty-icon').value,
-                    color: item.querySelector('.specialty-color').value
-                });
-            });
-            return specialties;
-        }
+                // Populate projects
+                if (data.projects) {
+                    data.projects.forEach(project => addProjectItem(project));
+                }
 
-        function getBackgroundData() {
-            const bgType = document.querySelector('input[name="background-type"]:checked').value;
-            switch (bgType) {
-                case 'color':
-                    return document.getElementById('bgColor').value;
-                case 'gradient':
-                    return `linear-gradient(${document.getElementById('gradientDirection').value}, ${document.getElementById('gradientColor1').value}, ${document.getElementById('gradientColor2').value})`;
-                case '3d':
-                    return 'three-js-background';
-                case 'image':
-                    return document.getElementById('backgroundImage').getAttribute('data-base64');
-                default:
-                    return null;
+                // Populate specialties
+                if (data.specialties) {
+                    data.specialties.forEach(specialty => addSpecialtyItem(specialty));
+                }
+
+                // Populate background
+                if (data.background) {
+                    document.getElementById('backgroundType').value = data.background.type;
+                    updateBackgroundOptions(data.background.type, data.background.value);
+                }
             }
         }
 
-        // Add new item functions
-        function addSocialLink() {
-            const container = document.getElementById('socialLinksContainer');
-            const socialLinkItem = document.createElement('div');
-            socialLinkItem.className = 'social-link-item mb-3';
-            socialLinkItem.innerHTML = `
-                <select class="form-select" style="width: 150px;">
-                    <option value="facebook">Facebook</option>
-                    <option value="twitter">Twitter</option>
-                    <option value="linkedin">LinkedIn</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="github">GitHub</option>
-                    <option value="youtube">YouTube</option>
-                    <option value="twitch">Twitch</option>
-                </select>
-                <input type="url" class="form-control" placeholder="URL do perfil">
-                <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">
-                    <i class="fas fa-trash"></i>
-                </button>
+        // Function to add work experience item
+        function addWorkExperienceItem(job = {}) {
+            const workExperienceDiv = document.getElementById('workExperience');
+            const jobItem = document.createElement('div');
+            jobItem.className = 'work-experience-item border p-4 rounded';
+            jobItem.innerHTML = `
+                <input type="text" placeholder="Empresa" value="${job.company || ''}" class="w-full p-2 border rounded mb-2">
+                <input type="text" placeholder="Cargo" value="${job.position || ''}" class="w-full p-2 border rounded mb-2">
+                <input type="date" placeholder="Data de Início" value="${job.startDate || ''}" class="w-full p-2 border rounded mb-2">
+                <input type="date" placeholder="Data de Término" value="${job.endDate || ''}" class="w-full p-2 border rounded mb-2">
+                <button type="button" class="remove-job bg-red-500 text-white px-2 py-1 rounded">Remover</button>
             `;
-            container.appendChild(socialLinkItem);
+            workExperienceDiv.appendChild(jobItem);
+
+            jobItem.querySelector('.remove-job').addEventListener('click', () => {
+                workExperienceDiv.removeChild(jobItem);
+            });
         }
 
-        function addCompany() {
-            const container = document.getElementById('companiesContainer');
-            const companyItem = document.createElement('div');
-            companyItem.className = 'company-item mb-3 p-3 border rounded';
-            companyItem.innerHTML = `
-                <div class="mb-2">
-                    <input type="text" class="form-control company-name" placeholder="Nome da Empresa">
-                </div>
-                <div class="mb-2">
-                    <input type="text" class="form-control company-role" placeholder="Cargo">
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input type="date" class="form-control company-start-date">
-                    </div>
-                    <div class="col">
-                        <input type="date" class="form-control company-end-date">
-                    </div>
-                </div>
-                <button type="button" class="btn btn-danger mt-2" onclick="this.parentElement.remove()">
-                    <i class="fas fa-trash"></i> Remover
-                </button>
-            `;
-            container.appendChild(companyItem);
-        }
-
-        function addProject() {
-            const container = document.getElementById('projectsContainer');
+        // Function to add project item
+        function addProjectItem(project = {}) {
+            const projectsDiv = document.getElementById('projects');
             const projectItem = document.createElement('div');
-            projectItem.className = 'project-item mb-3 p-3 border rounded';
+            projectItem.className = 'project-item border p-4 rounded';
             projectItem.innerHTML = `
-                <div class="mb-2">
-                    <input type="text" class="form-control project-title" placeholder="Título do Projeto">
-                </div>
-                <div class="mb-2">
-                    <input type="text" class="form-control project-subtitle" placeholder="Subtítulo">
-                </div>
-                <div class="mb-2">
-                    <textarea class="form-control project-description" placeholder="Descrição"></textarea>
-                </div>
-                <div class="mb-2">
-                    <div class="dropzone project-image-dropzone"></div>
-                </div>
-                <div class="mb-2">
-                    <input type="url" class="form-control project-link" placeholder="Link do Projeto (opcional)">
-                </div>
-                <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">
-                    <i class="fas fa-trash"></i> Remover
-                </button>
+                <input type="text" placeholder="Título" value="${project.title || ''}" class="w-full p-2 border rounded mb-2">
+                <input type="text" placeholder="Subtítulo" value="${project.subtitle || ''}" class="w-full p-2 border rounded mb-2">
+                <textarea placeholder="Descrição" class="w-full p-2 border rounded mb-2">${project.description || ''}</textarea>
+                <input type="file" accept="image/*" class="w-full mb-2">
+                <input type="url" placeholder="Link do Projeto" value="${project.link || ''}" class="w-full p-2 border rounded mb-2">
+                <button type="button" class="remove-project bg-red-500 text-white px-2 py-1 rounded">Remover</button>
             `;
-            container.appendChild(projectItem);
-            
-            // Initialize Dropzone for project image
-            new Dropzone(projectItem.querySelector('.project-image-dropzone'), {
-                url: "/file/post",
-                acceptedFiles: "image/*",
-                maxFiles: 1,
-                autoProcessQueue: false,
-                init: function() {
-                    this.on("addedfile", function(file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            projectItem.querySelector('.project-image').setAttribute('data-base64', e.target.result);
-                        };
-                        reader.readAsDataURL(file);
-                    });
-                }
+            projectsDiv.appendChild(projectItem);
+
+            projectItem.querySelector('.remove-project').addEventListener('click', () => {
+                projectsDiv.removeChild(projectItem);
             });
         }
 
-        function addSpecialty() {
-            const container = document.getElementById('specialtiesContainer');
+        // Function to add specialty item
+        function addSpecialtyItem(specialty = {}) {
+            const specialtiesDiv = document.getElementById('specialties');
             const specialtyItem = document.createElement('div');
-            specialtyItem.className = 'specialty-item mb-3 p-3 border rounded';
+            specialtyItem.className = 'specialty-item border p-4 rounded';
             specialtyItem.innerHTML = `
-                <div class="mb-2">
-                    <input type="text" class="form-control specialty-name" placeholder="Nome da Especialidade">
-                </div>
-                <div class="mb-2">
-                    <select class="form-select specialty-icon">
-                        <!-- Add your 60 icons here -->
-                        <option value="fas fa-code">Código</option>
-                        <option value="fas fa-database">Banco de Dados</option>
-                        <option value="fas fa-server">Servidor</option>
-                        <!-- Add more options... -->
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <input type="color" class="form-control specialty-color" value="#000000">
-                </div>
-                <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">
-                    <i class="fas fa-trash"></i> Remover
-                </button>
+                <input type="text" placeholder="Nome da Especialidade" value="${specialty.name || ''}" class="w-full p-2 border rounded mb-2">
+                <select class="w-full p-2 border rounded mb-2">
+                    <option value="fas fa-code" ${specialty.icon === 'fas fa-code' ? 'selected' : ''}>Código</option>
+                    <option value="fas fa-paint-brush" ${specialty.icon === 'fas fa-paint-brush' ? 'selected' : ''}>Design</option>
+                    <option value="fas fa-chart-bar" ${specialty.icon === 'fas fa-chart-bar' ? 'selected' : ''}>Análise</option>
+                    <option value="fas fa-cogs" ${specialty.icon === 'fas fa-cogs' ? 'selected' : ''}>Engenharia</option>
+                    <option value="fas fa-users" ${specialty.icon === 'fas fa-users' ? 'selected' : ''}>Gestão</option>
+                    <option value="fas fa-lightbulb" ${specialty.icon === 'fas fa-lightbulb' ? 'selected' : ''}>Inovação</option>
+                    <option value="fas fa-globe" ${specialty.icon === 'fas fa-globe' ? 'selected' : ''}>Idiomas</option>
+                </select>
+                <div class="color-picker"></div>
+                <button type="button" class="remove-specialty bg-red-500 text-white px-2 py-1 rounded mt-2">Remover</button>
             `;
-            container.appendChild(specialtyItem);
+            specialtiesDiv.appendChild(specialtyItem);
+
+            // Initialize color picker
+            const pickr = Pickr.create({
+                el: specialtyItem.querySelector('.color-picker'),
+                theme: 'classic',
+                default: specialty.color || '#000000',
+                swatches: [
+                    'rgba(244, 67, 54, 1)',
+                    'rgba(233, 30, 99, 1)',
+                    'rgba(156, 39, 176, 1)',
+                    'rgba(103, 58, 183, 1)',
+                    'rgba(63, 81, 181, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(3, 169, 244, 1)',
+                    'rgba(0, 188, 212, 1)',
+                    'rgba(0, 150, 136, 1)',
+                    'rgba(76, 175, 80, 1)',
+                    'rgba(139, 195, 74, 1)',
+                    'rgba(205, 220, 57, 1)',
+                    'rgba(255, 235, 59, 1)',
+                    'rgba(255, 193, 7, 1)'
+                ],
+                components: {
+                    preview: true,
+                    opacity: true,
+                    hue: true,
+                    interaction: {
+                        hex: true,
+                        rgba: true,
+                        hsla: true,
+                        hsva: true,
+                        cmyk: true,
+                        input: true,
+                        clear: true,
+                        save: true
+                    }
+                }
+            });
+
+            specialtyItem.querySelector('.remove-specialty').addEventListener('click', () => {
+                specialtiesDiv.removeChild(specialtyItem);
+                pickr.destroyAndRemove();
+            });
         }
 
-        // Event Listeners
-        document.getElementById('saveProfile').addEventListener('click', saveProfile);
-        document.getElementById('addSocialLink').addEventListener('click', addSocialLink);
-        document.getElementById('addCompany').addEventListener('click', addCompany);
-        document.getElementById('addProject').addEventListener('click', addProject);
-        document.getElementById('addSpecialty').addEventListener('click', addSpecialty);
+        // Function to update background options
+        function updateBackgroundOptions(type, value = '') {
+            const backgroundOptionsDiv = document.getElementById('backgroundOptions');
+            backgroundOptionsDiv.innerHTML = '';
 
-        // Load existing profile data
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                firebase.database().ref('users/' + user.uid).once('value')
-                    .then((snapshot) => {
-                        const userData = snapshot.val();
-                        if (userData) {
-                            loadProfileData(userData);
+            switch (type) {
+                case 'color':
+                    backgroundOptionsDiv.innerHTML = `
+                        <div id="backgroundColorPicker" class="color-picker"></div>
+                    `;
+                    initializeColorPicker('backgroundColorPicker', value || '#ffffff');
+                    break;
+                case 'gradient':
+                    backgroundOptionsDiv.innerHTML = `
+                        <div id="gradientColorPicker1" class="color-picker mb-2"></div>
+                        <div id="gradientColorPicker2" class="color-picker mb-2"></div>
+                        <input type="range" id="gradientAngle" min="0" max="360" value="90" class="w-full">
+                        <label for="gradientAngle" class="block mt-2">Ângulo do Gradiente: <span id="gradientAngleValue">90</span>°</label>
+                    `;
+                    const colors = value ? value.split(',') : ['#ffffff', '#000000'];
+                    initializeColorPicker('gradientColorPicker1', colors[0]);
+                    initializeColorPicker('gradientColorPicker2', colors[1]);
+                    document.getElementById('gradientAngle').addEventListener('input', (e) => {
+                        document.getElementById('gradientAngleValue').textContent = e.target.value;
+                    });
+                    break;
+                case 'image':
+                case 'gif':
+                    backgroundOptionsDiv.innerHTML = `
+                        <input type="file" id="backgroundFile" accept="${type === 'image' ? 'image/*' : 'image/gif'}" class="w-full">
+                        <div id="backgroundPreview" class="mt-2 h-40 bg-gray-200 bg-cover bg-center"></div>
+                    `;
+                    if (value) {
+                        document.getElementById('backgroundPreview').style.backgroundImage = `url(${value})`;
+                    }
+                    document.getElementById('backgroundFile').addEventListener('change', (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                document.getElementById('backgroundPreview').style.backgroundImage = `url(${e.target.result})`;
+                            };
+                            reader.readAsDataURL(file);
                         }
                     });
-            } else {
-                window.location.href = 'login.html';
+                    break;
+                case '3d':
+                    backgroundOptionsDiv.innerHTML = `
+                        <p>O fundo 3D será gerado automaticamente.</p>
+                    `;
+                    break;
+            }
+        }
+
+        // Function to initialize color picker
+        function initializeColorPicker(elementId, defaultColor) {
+            Pickr.create({
+                el: `#${elementId}`,
+                theme: 'classic',
+                default: defaultColor,
+                swatches: [
+                    'rgba(244, 67, 54, 1)',
+                    'rgba(233, 30, 99, 1)',
+                    'rgba(156, 39, 176, 1)',
+                    'rgba(103, 58, 183, 1)',
+                    'rgba(63, 81, 181, 1)',
+                    'rgba(33, 150, 243, 1)',
+                    'rgba(3, 169, 244, 1)',
+                    'rgba(0, 188, 212, 1)',
+                    'rgba(0, 150, 136, 1)',
+                    'rgba(76, 175, 80, 1)',
+                    'rgba(139, 195, 74, 1)',
+                    'rgba(205, 220, 57, 1)',
+                    'rgba(255, 235, 59, 1)',
+                    'rgba(255, 193, 7, 1)'
+                ],
+                components: {
+                    preview: true,
+                    opacity: true,
+                    hue: true,
+                    interaction: {
+                        hex: true,
+                        rgba: true,
+                        hsla: true,
+                        hsva: true,
+                        cmyk: true,
+                        input: true,
+                        clear: true,
+                        save: true
+                    }
+                }
+            });
+        }
+
+        // Event listeners
+        document.getElementById('addWorkExperience').addEventListener('click', () => addWorkExperienceItem());
+        document.getElementById('addProject').addEventListener('click', () => addProjectItem());
+        document.getElementById('addSpecialty').addEventListener('click', () => addSpecialtyItem());
+        document.getElementById('backgroundType').addEventListener('change', (e) => updateBackgroundOptions(e.target.value));
+
+        document.getElementById('banner').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('bannerPreview').style.backgroundImage = `url(${e.target.result})`;
+                };
+                reader.readAsDataURL(file);
             }
         });
 
-        function loadProfileData(userData) {
-            // Load basic info
-            document.getElementById('username').value = userData.username || '';
-            document.getElementById('fullName').value = userData.fullName || '';
-            document.getElementById('profileNote').value = userData.profileNote?.text || '';
-
-            // Load bio
-            if (userData.bio) {
-                quill.root.innerHTML = userData.bio;
+        document.getElementById('profilePicture').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('profilePicturePreview').style.backgroundImage = `url(${e.target.result})`;
+                };
+                reader.readAsDataURL(file);
             }
+        });
 
-            // Load social links
-            if (userData.socialLinks) {
-                Object.entries(userData.socialLinks).forEach(([platform, url]) => {
-                    addSocialLink();
-                    const lastItem = document.querySelector('.social-link-item:last-child');
-                    lastItem.querySelector('select').value = platform;
-                    lastItem.querySelector('input[type="url"]').value = url;
+        // Form submission
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                userName: document.getElementById('userName').value,
+                fullName: document.getElementById('fullName').value,
+                note: {
+                    text: document.getElementById('note').value,
+                    expiry: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+                },
+                biography: quill.root.innerHTML,
+                socialConnections: {},
+                workExperience: [],
+                projects: [],
+                specialties: [],
+                background: {}
+            };
+
+            // Get social connections
+            const socialInputs = document.querySelectorAll('#socialConnections input');
+            socialInputs.forEach(input => {
+                const platform = input.placeholder.split(' ')[2].toLowerCase();
+                if (input.value) {
+                    formData.socialConnections[platform] = input.value;
+                }
+            });
+
+            // Get work experience
+            const workExperienceItems = document.querySelectorAll('.work-experience-item');
+            workExperienceItems.forEach(item => {
+                const inputs = item.querySelectorAll('input');
+                formData.workExperience.push({
+                    company: inputs[0].value,
+                    position: inputs[1].value,
+                    startDate: inputs[2].value,
+                    endDate: inputs[3].value
                 });
-            }
+            });
 
-            // Load companies
-            if (userData.companies) {
-                userData.companies.forEach(company => {
-                    addCompany();
-                    const lastItem = document.querySelector('.company-item:last-child');
-                    lastItem.querySelector('.company-name').value = company.name;
-                    lastItem.querySelector('.company-role').value = company.role;
-                    lastItem.querySelector('.company-start-date').value = company.startDate;
-                    if (company.endDate) {
-                        lastItem.querySelector('.company-end-date').value = company.endDate;
+            // Get projects
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach(item => {
+                const inputs = item.querySelectorAll('input, textarea');
+                formData.projects.push({
+                    title: inputs[0].value,
+                    subtitle: inputs[1].value,
+                    description: inputs[2].value,
+                    image: inputs[3].files[0] ? await getBase64(inputs[3].files[0]) : null,
+                    link: inputs[4].value
+                });
+            });
+
+            // Get specialties
+            const specialtyItems = document.querySelectorAll('.specialty-item');
+            specialtyItems.forEach(item => {
+                const name = item.querySelector('input[type="text"]').value;
+                const icon = item.querySelector('select').value;
+                const color = item.querySelector('.pcr-button').style.color;
+                formData.specialties.push({ name, icon, color });
+            });
+
+            // Get background
+            const backgroundType = document.getElementById('backgroundType').value;
+            formData.background.type = backgroundType;
+            switch (backgroundType) {
+                case 'color':
+                    formData.background.value = document.querySelector('#backgroundColorPicker .pcr-button').style.color;
+                    break;
+                case 'gradient':
+                    const color1 = document.querySelector('#gradientColorPicker1 .pcr-button').style.color;
+                    const color2 = document.querySelector('#gradientColorPicker2 .pcr-button').style.color;
+                    const angle = document.getElementById('gradientAngle').value;
+                    formData.background.value = `linear-gradient(${angle}deg, ${color1}, ${color2})`;
+                    break;
+                case 'image':
+                case 'gif':
+                    const file = document.getElementById('backgroundFile').files[0];
+                    if (file) {
+                        formData.background.value = await getBase64(file);
                     }
-                });
+                    break;
+                case '3d':
+                    formData.background.value = '3d';
+                    break;
             }
 
-            // Load projects
-            if (userData.projects) {
-                userData.projects.forEach(project => {
-                    addProject();
-                    const lastItem = document.querySelector('.project-item:last-child');
-                    lastItem.querySelector('.project-title').value = project.title;
-                    lastItem.querySelector('.project-subtitle').value = project.subtitle;
-                    lastItem.querySelector('.project-description').value = project.description;
-                    if (project.image) {
-                        lastItem.querySelector('.project-image').setAttribute('data-base64', project.image);
-                    }
-                    if (project.link) {
-                        lastItem.querySelector('.project-link').value = project.link;
-                    }
-                });
+            // Get banner and profile picture
+            const bannerFile = document.getElementById('banner').files[0];
+            if (bannerFile) {
+                formData.banner = await getBase64(bannerFile);
+            }
+            const profilePictureFile = document.getElementById('profilePicture').files[0];
+            if (profilePictureFile) {
+                formData.profilePicture = await getBase64(profilePictureFile);
             }
 
-            // Load specialties
-            if (userData.specialties) {
-                userData.specialties.forEach(specialty => {
-                    addSpecialty();
-                    const lastItem = document.querySelector('.specialty-item:last-child');
-                    lastItem.querySelector('.specialty-name').value = specialty.name;
-                    lastItem.querySelector('.specialty-icon').value = specialty.icon;
-                    lastItem.querySelector('.specialty-color').value = specialty.color;
-                });
+            // Save data to Firebase
+            try {
+                await set(ref(db, 'users/' + userId), formData);
+                alert('Perfil atualizado com sucesso!');
+                window.location.href = 'perfil.html';
+            } catch (error) {
+                console.error('Erro ao salvar o perfil:', error);
+                alert('Ocorreu um erro ao salvar o perfil. Por favor, tente novamente.');
             }
+        });
+
+        // Helper function to convert file to base64
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
         }
     </script>
 </body>
 </html>
+
