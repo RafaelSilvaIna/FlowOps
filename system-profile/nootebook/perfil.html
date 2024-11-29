@@ -5,778 +5,258 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil Profissional</title>
-    
-    <!-- Estilos -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"></script>
     <style>
-        /* Estilos personalizados */
-        .profile-banner {
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
         .profile-picture {
             width: 150px;
             height: 150px;
-            border: 5px solid #fff;
             border-radius: 50%;
+            border: 4px solid white;
             position: absolute;
             bottom: -75px;
             left: 50%;
             transform: translateX(-50%);
+        }
+        .banner {
+            height: 200px;
             background-size: cover;
             background-position: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
-
-        .profile-picture:hover {
-            transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .temp-note {
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
+        .note {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            max-width: 300px;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.5s ease;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-        }
-
-        .project-card {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skill-badge {
-            padding: 8px 16px;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .skill-badge:hover {
-            transform: scale(1.05);
-        }
-
-        /* Animações */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Tema escuro */
-        .dark-mode {
-            background-color: #1a1a1a;
-            color: #fff;
-        }
-
-        .dark-mode .card {
-            background-color: #2d2d2d;
-            border: 1px solid #3d3d3d;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .profile-banner {
-                height: 200px;
-            }
-
-            .profile-picture {
-                width: 120px;
-                height: 120px;
-                bottom: -60px;
-            }
-        }
-
-        /* Loader */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #FFF;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Menu lateral */
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background: #fff;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .sidebar.collapsed {
-            transform: translateX(-280px);
-        }
-
-        .sidebar-toggle {
-            position: absolute;
-            right: -40px;
-            top: 20px;
-            background: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 0 5px 5px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        }
-
-        /* Editor de texto rico */
-        .rich-editor {
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 10px;
-            min-height: 150px;
-        }
-
-        .rich-editor:focus {
-            outline: none;
-            border-color: #4a90e2;
-        }
-
-        /* Dropzone para upload */
-        .dropzone {
-            border: 2px dashed #ddd;
             border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .dropzone.drag-over {
-            border-color: #4a90e2;
-            background: rgba(74, 144, 226, 0.1);
-        }
-
-        /* Tooltips personalizados */
-        .custom-tooltip {
-            position: relative;
-            display: inline-block;
-        }
-
-        .custom-tooltip:hover::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 5px 10px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            border-radius: 5px;
-            font-size: 12px;
-            white-space: nowrap;
         }
     </style>
 </head>
-<body>
-    <!-- Loader -->
-    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <span class="loader"></span>
+<body class="bg-gray-100">
+    <div class="flex">
+        <!-- Sidebar -->
+        <div class="w-64 h-screen bg-gray-800 text-white p-4">
+            <h2 class="text-2xl font-bold mb-4">Menu</h2>
+            <ul>
+                <li class="mb-2"><a href="#" class="hover:text-gray-300">Dashboard</a></li>
+                <li class="mb-2"><a href="#" class="hover:text-gray-300">Perfil</a></li>
+                <li class="mb-2"><a href="#" class="hover:text-gray-300">Configurações</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1">
+            <!-- Banner and Profile Picture -->
+            <div class="relative">
+                <div id="banner" class="banner"></div>
+                <img id="profilePicture" src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture">
+                <div id="note" class="note hidden">
+                    <p id="noteText"></p>
+                </div>
+            </div>
+
+            <!-- User Info -->
+            <div class="mt-20 text-center">
+                <h1 id="userName" class="text-3xl font-bold"></h1>
+                <p id="fullName" class="text-xl text-gray-600"></p>
+            </div>
+
+            <!-- Biography -->
+            <div id="bio" class="mt-6 mx-auto max-w-2xl p-4 rounded-lg"></div>
+
+            <!-- Social Connections -->
+            <div id="socialConnections" class="mt-6 flex justify-center space-x-4"></div>
+
+            <!-- Work Experience -->
+            <div id="workExperience" class="mt-6 mx-auto max-w-2xl">
+                <h2 class="text-2xl font-bold mb-4">Experiência Profissional</h2>
+            </div>
+
+            <!-- Projects -->
+            <div id="projects" class="mt-6 mx-auto max-w-2xl">
+                <h2 class="text-2xl font-bold mb-4">Projetos</h2>
+            </div>
+
+            <!-- Specialties -->
+            <div id="specialties" class="mt-6 mx-auto max-w-2xl">
+                <h2 class="text-2xl font-bold mb-4">Especialidades</h2>
+                <div class="flex flex-wrap justify-center"></div>
+            </div>
+
+            <!-- Edit Profile Button -->
+            <div class="fixed bottom-4 right-4">
+                <a href="system-edit/edit.html" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                    <i class="fas fa-plus"></i> Editar Perfil
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Menu Lateral -->
-    <div id="sidebar" class="sidebar">
-        <div class="sidebar-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
-        <div class="p-4">
-            <div class="text-2xl font-bold mb-8">Logo</div>
-            <nav class="space-y-2">
-                <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-100">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="flex items-center space-x-2 p-2 rounded bg-blue-100 text-blue-600">
-                    <i class="fas fa-user"></i>
-                    <span>Perfil</span>
-                </a>
-                <a href="#" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-100">
-                    <i class="fas fa-cog"></i>
-                    <span>Configurações</span>
-                </a>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Conteúdo Principal -->
-    <div id="main-content" class="ml-[280px] transition-all duration-300">
-        <!-- Banner e Foto de Perfil -->
-        <div id="profile-banner" class="profile-banner">
-            <div id="temp-note" class="temp-note hidden"></div>
-            <div id="profile-picture" class="profile-picture"></div>
-        </div>
-
-        <!-- Informações do Perfil -->
-        <div class="container mx-auto px-4 mt-24">
-            <!-- Nome e Username -->
-            <div class="text-center" data-aos="fade-up">
-                <h1 id="full-name" class="text-3xl font-bold"></h1>
-                <p id="username" class="text-gray-600 mt-2"></p>
-            </div>
-
-            <!-- Biografia -->
-            <div class="mt-8" data-aos="fade-up" data-aos-delay="100">
-                <div id="bio" class="rich-editor"></div>
-            </div>
-
-            <!-- Conexões Sociais -->
-            <div class="flex justify-center space-x-4 mt-8" data-aos="fade-up" data-aos-delay="200">
-                <div id="social-connections"></div>
-            </div>
-
-            <!-- Experiência Profissional -->
-            <div class="mt-12" data-aos="fade-up" data-aos-delay="300">
-                <h2 class="text-2xl font-bold mb-6">Experiência Profissional</h2>
-                <div id="work-experience" class="grid gap-6"></div>
-            </div>
-
-            <!-- Projetos -->
-            <div class="mt-12" data-aos="fade-up" data-aos-delay="400">
-                <h2 class="text-2xl font-bold mb-6">Projetos</h2>
-                <div id="projects" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            </div>
-
-            <!-- Especialidades -->
-            <div class="mt-12 mb-12" data-aos="fade-up" data-aos-delay="500">
-                <h2 class="text-2xl font-bold mb-6">Especialidades</h2>
-                <div id="skills" class="flex flex-wrap gap-4"></div>
-            </div>
-        </div>
-
-        <!-- Botão de Edição -->
-        <a href="editor.html" class="fixed bottom-8 right-8 w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-all duration-300">
-            <i class="fas fa-edit text-xl"></i>
-        </a>
-    </div>
-
-    <!-- Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-g
     <script type="module">
-        // Configuração do Firebase
+        // Import Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+        // Firebase configuration
         const firebaseConfig = {
-            // Suas configurações aqui
+            apiKey: "AIzaSyDaffUTJnaBW7ppaHo_UQOBMHrlvMXTdGw",
+            authDomain: "flowops-7e9f0.firebaseapp.com",
+            databaseURL: "https://flowops-7e9f0-default-rtdb.firebaseio.com",
+            projectId: "flowops-7e9f0",
+            storageBucket: "flowops-7e9f0.firebasestorage.app",
+            messagingSenderId: "541008189245",
+            appId: "1:541008189245:web:58eeb67a2507ab0bb1d754",
+            measurementId: "G-KHZ92X24C4"
         };
 
-        // Inicialização
-        let currentUser = null;
-        let threejsScene = null;
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
 
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-
-        // Inicializar AOS
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-
-        // Verificar autenticação
-        auth.onAuthStateChanged(async (user) => {
+        // Check if user is authenticated
+        onAuthStateChanged(auth, (user) => {
             if (user) {
-                currentUser = user;
-                await loadUserProfile();
-                document.getElementById('loader').classList.add('hidden');
+                // User is signed in, fetch profile data
+                const userRef = ref(db, 'users/' + user.uid);
+                onValue(userRef, (snapshot) => {
+                    const data = snapshot.val();
+                    updateProfile(data);
+                });
             } else {
-                window.location.href = '/login.html';
+                // User is signed out, redirect to login page
+                window.location.href = 'login.html';
             }
         });
 
-        // Carregar perfil
-        async function loadUserProfile() {
-            try {
-                const snapshot = await database.ref(`users/${currentUser.uid}`).once('value');
-                const userData = snapshot.val();
-                
-                if (userData) {
-                    updateUI(userData);
-                    setupBackgroundEffects(userData.background);
-                    startTempNoteTimer(userData.tempNote, userData.tempNoteTimestamp);
-                }
-            } catch (error) {
-                console.error('Erro ao carregar perfil:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro',
-                    text: 'Não foi possível carregar seu perfil.'
-                });
-            }
-        }
+        function updateProfile(data) {
+            // Update banner
+            document.getElementById('banner').style.backgroundImage = `url(${data.banner || 'https://via.placeholder.com/1000x200'})`;
 
-        // Atualizar UI
-        function updateUI(userData) {
-            // Banner
-            const banner = document.getElementById('profile-banner');
-            if (userData.banner) {
-                switch (userData.banner.type) {
-                    case 'color':
-                        banner.style.background = userData.banner.value;
-                        break;
-                    case 'gradient':
-                        banner.style.background = `linear-gradient(${userData.banner.angle || '45deg'}, ${userData.banner.colors.join(', ')})`;
-                        break;
-                    case 'image':
-                    case 'gif':
-                        banner.style.backgroundImage = `url(${userData.banner.value})`;
-                        break;
-                    case '3d':
-                        setup3DBackground(userData.banner.effect);
-                        break;
-                }
+            // Update profile picture
+            document.getElementById('profilePicture').src = data.profilePicture || 'https://via.placeholder.com/150';
+
+            // Update user name and full name
+            document.getElementById('userName').textContent = data.userName || 'Username';
+            document.getElementById('fullName').textContent = data.fullName || 'Full Name';
+
+            // Update note
+            if (data.note && new Date(data.note.expiry) > new Date()) {
+                document.getElementById('noteText').textContent = data.note.text;
+                document.getElementById('note').classList.remove('hidden');
             }
 
-            // Foto de perfil com efeito de carregamento lazy
-            const profilePic = document.getElementById('profile-picture');
-            if (userData.profileImage) {
-                const img = new Image();
-                img.onload = () => {
-                    profilePic.style.backgroundImage = `url(${userData.profileImage})`;
-                    profilePic.style.opacity = 1;
-                };
-                img.src = userData.profileImage;
+            // Update biography
+            const bioElement = document.getElementById('bio');
+            bioElement.innerHTML = data.biography || 'No biography available.';
+            if (data.biographyStyle) {
+                Object.assign(bioElement.style, data.biographyStyle);
             }
 
-            // Nome e username com animação
-            const fullName = document.getElementById('full-name');
-            const username = document.getElementById('username');
-            
-            fullName.textContent = userData.fullName || '';
-            username.textContent = userData.username || '';
-
-            // Biografia com sanitização HTML
-            const bio = document.getElementById('bio');
-            if (userData.bio) {
-                bio.innerHTML = DOMPurify.sanitize(userData.bio);
-            }
-
-            // Conexões sociais com validação de URL
-            const socialConnections = document.getElementById('social-connections');
-            socialConnections.innerHTML = '';
-            
-            if (userData.socialConnections) {
-                Object.entries(userData.socialConnections).forEach(([platform, url]) => {
-                    if (url && isValidUrl(url)) {
-                        const icon = createSocialIcon(platform, url);
-                        socialConnections.appendChild(icon);
+            // Update social connections
+            const socialElement = document.getElementById('socialConnections');
+            socialElement.innerHTML = '';
+            if (data.socialConnections) {
+                for (const [platform, url] of Object.entries(data.socialConnections)) {
+                    if (url) {
+                        const icon = document.createElement('a');
+                        icon.href = url;
+                        icon.target = '_blank';
+                        icon.innerHTML = `<i class="fab fa-${platform} fa-2x"></i>`;
+                        socialElement.appendChild(icon);
                     }
-                });
+                }
             }
 
-            // Continuação do script anterior...
-
-            // Experiência profissional com ordenação por data
-            const workExperience = document.getElementById('work-experience');
-            workExperience.innerHTML = '';
-
-            if (userData.workExperience && userData.workExperience.length > 0) {
-                const sortedExperience = userData.workExperience
-                    .sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-
-                sortedExperience.forEach(exp => {
-                    const expElement = document.createElement('div');
-                    expElement.className = 'bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300';
-                    expElement.setAttribute('data-aos', 'fade-up');
-                    
-                    const endDate = exp.current ? 'Presente' : formatDate(exp.endDate);
-                    
-                    expElement.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="text-xl font-bold">${exp.company}</h3>
-                                <p class="text-gray-600">${exp.role}</p>
-                            </div>
-                            <span class="text-sm text-gray-500">
-                                ${formatDate(exp.startDate)} - ${endDate}
-                            </span>
-                        </div>
+            // Update work experience
+            const workElement = document.getElementById('workExperience');
+            workElement.innerHTML = '<h2 class="text-2xl font-bold mb-4">Experiência Profissional</h2>';
+            if (data.workExperience) {
+                data.workExperience.forEach(job => {
+                    const jobElement = document.createElement('div');
+                    jobElement.className = 'mb-4';
+                    jobElement.innerHTML = `
+                        <h3 class="text-xl font-semibold">${job.company}</h3>
+                        <p>${job.position}</p>
+                        <p>${job.startDate} - ${job.endDate || 'Present'}</p>
                     `;
-                    workExperience.appendChild(expElement);
+                    workElement.appendChild(jobElement);
                 });
             } else {
-                workExperience.innerHTML = `
-                    <div class="text-center text-gray-500">
-                        <i class="fas fa-briefcase text-4xl mb-2"></i>
-                        <p>Ainda não há experiências cadastradas</p>
-                    </div>
-                `;
+                workElement.innerHTML += '<p>Nenhuma experiência profissional adicionada.</p>';
             }
 
-            // Projetos com lazy loading de imagens
-            const projects = document.getElementById('projects');
-            projects.innerHTML = '';
-
-            if (userData.projects && userData.projects.length > 0) {
-                userData.projects.forEach(project => {
+            // Update projects
+            const projectsElement = document.getElementById('projects');
+            projectsElement.innerHTML = '<h2 class="text-2xl font-bold mb-4">Projetos</h2>';
+            if (data.projects) {
+                data.projects.forEach(project => {
                     const projectElement = document.createElement('div');
-                    projectElement.className = 'project-card bg-white rounded-lg overflow-hidden shadow-lg';
-                    projectElement.setAttribute('data-aos', 'fade-up');
-
-                    const imageContainer = document.createElement('div');
-                    imageContainer.className = 'relative pb-[56.25%]'; // 16:9 aspect ratio
-
-                    const image = new Image();
-                    image.onload = () => {
-                        imageContainer.style.backgroundImage = `url(${project.image})`;
-                        imageContainer.style.backgroundSize = 'cover';
-                        imageContainer.style.backgroundPosition = 'center';
-                    };
-                    image.src = project.image;
-
+                    projectElement.className = 'mb-4';
                     projectElement.innerHTML = `
-                        ${imageContainer.outerHTML}
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">${project.title}</h3>
-                            <p class="text-gray-600 mb-2">${project.subtitle}</p>
-                            <p class="text-gray-700 mb-4">${project.description}</p>
-                            ${project.link && project.showButton ? `
-                                <a href="${project.link}" target="_blank" 
-                                   class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                                    Ver Projeto
-                                </a>
-                            ` : ''}
-                        </div>
+                        <h3 class="text-xl font-semibold">${project.title}</h3>
+                        <h4 class="text-lg">${project.subtitle}</h4>
+                        <p>${project.description}</p>
+                        ${project.image ? `<img src="${project.image}" alt="${project.title}" class="mt-2 max-w-full h-auto">` : ''}
+                        ${project.link ? `<a href="${project.link}" target="_blank" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">Ver Projeto</a>` : ''}
                     `;
-
-                    projectElement.addEventListener('click', () => {
-                        if (project.link) {
-                            window.open(project.link, '_blank');
-                        }
-                    });
-
-                    projects.appendChild(projectElement);
+                    projectsElement.appendChild(projectElement);
                 });
             } else {
-                projects.innerHTML = `
-                    <div class="col-span-full text-center text-gray-500">
-                        <i class="fas fa-project-diagram text-4xl mb-2"></i>
-                        <p>Ainda não há projetos cadastrados</p>
-                    </div>
-                `;
+                projectsElement.innerHTML += '<p>Nenhum projeto adicionado.</p>';
             }
 
-            // Especialidades com animações
-            const skills = document.getElementById('skills');
-            skills.innerHTML = '';
-
-            if (userData.skills && userData.skills.length > 0) {
-                userData.skills.forEach(skill => {
-                    const skillElement = document.createElement('div');
-                    skillElement.className = 'skill-badge bg-white shadow-md';
-                    skillElement.style.borderColor = skill.color;
-                    skillElement.setAttribute('data-aos', 'fade-up');
-                    
-                    skillElement.innerHTML = `
-                        <i class="${skill.icon}" style="color: ${skill.color}"></i>
-                        <span>${skill.name}</span>
+            // Update specialties
+            const specialtiesElement = document.getElementById('specialties').querySelector('div');
+            specialtiesElement.innerHTML = '';
+            if (data.specialties) {
+                data.specialties.forEach(specialty => {
+                    const specialtyElement = document.createElement('div');
+                    specialtyElement.className = 'flex items-center m-2';
+                    specialtyElement.innerHTML = `
+                        <i class="${specialty.icon} text-3xl mr-2" style="color: ${specialty.color};"></i>
+                        <span>${specialty.name}</span>
                     `;
-                    
-                    skills.appendChild(skillElement);
+                    specialtiesElement.appendChild(specialtyElement);
                 });
             } else {
-                skills.innerHTML = `
-                    <div class="w-full text-center text-gray-500">
-                        <i class="fas fa-tools text-4xl mb-2"></i>
-                        <p>Ainda não há especialidades cadastradas</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Configuração de efeitos de background
-        function setupBackgroundEffects(background) {
-            if (!background) return;
-
-            if (background.type === '3d') {
-                setup3DBackground(background.effect);
-            } else if (background.type === 'gradient') {
-                document.body.style.background = `linear-gradient(${background.angle || '45deg'}, ${background.colors.join(', ')})`;
-            } else if (background.type === 'color') {
-                document.body.style.background = background.value;
-            } else if (background.type === 'image' || background.type === 'gif') {
-                document.body.style.backgroundImage = `url(${background.value})`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundAttachment = 'fixed';
-            }
-        }
-
-        // Configuração do background 3D
-        function setup3DBackground(effect) {
-            if (threejsScene) {
-                threejsScene.dispose();
+                specialtiesElement.innerHTML = '<p>Nenhuma especialidade adicionada.</p>';
             }
 
-            const container = document.createElement('div');
-            container.style.position = 'fixed';
-            container.style.top = '0';
-            container.style.left = '0';
-            container.style.width = '100%';
-            container.style.height = '100%';
-            container.style.zIndex = '-1';
-            document.body.appendChild(container);
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
-
-            // Efeitos 3D personalizados
-            switch (effect) {
-                case 'particles':
-                    setupParticlesEffect(scene);
-                    break;
-                case 'waves':
-                    setupWavesEffect(scene);
-                    break;
-                case 'cubes':
-                    setupCubesEffect(scene);
-                    break;
-            }
-
-            camera.position.z = 5;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                renderer.render(scene, camera);
-            }
-
-            animate();
-
-            // Responsividade
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-            threejsScene = {
-                dispose: () => {
-                    container.remove();
-                    renderer.dispose();
-                }
-            };
-        }
-
-        // Timer para nota temporária
-        function startTempNoteTimer(note, timestamp) {
-            if (!note || !timestamp) return;
-
-            const noteElement = document.getElementById('temp-note');
-            const timeLeft = 24 * 60 * 60 * 1000 - (Date.now() - timestamp);
-
-            if (timeLeft > 0) {
-                noteElement.textContent = note;
-                noteElement.classList.remove('hidden');
-
-                setTimeout(() => {
-                    noteElement.classList.add('hidden');
-                    database.ref(`users/${currentUser.uid}/tempNote`).remove();
-                    database.ref(`users/${currentUser.uid}/tempNoteTimestamp`).remove();
-                }, timeLeft);
-            }
-        }
-
-        // Utilitários
-        function formatDate(timestamp) {
-            return new Date(timestamp).toLocaleDateString('pt-BR', {
-                month: 'long',
-                year: 'numeric'
-            });
-        }
-
-        function isValidUrl(url) {
-            try {
-                new URL(url);
-                return true;
-            } catch {
-                return false;
-            }
-        }
-
-        function createSocialIcon(platform, url) {
-            const icon = document.createElement('a');
-            icon.href = url;
-            icon.target = '_blank';
-            icon.className = 'social-icon';
-            icon.setAttribute('data-tooltip', platform);
-
-            // Definir cor e ícone com base na plataforma
-            const socialConfig = {
-                github: { color: '#333', icon: 'fab fa-github' },
-                linkedin: { color: '#0077B5', icon: 'fab fa-linkedin' },
-                twitter: { color: '#1DA1F2', icon: 'fab fa-twitter' },
-                instagram: { color: '#E4405F', icon: 'fab fa-instagram' },
-                facebook: { color: '#1877F2', icon: 'fab fa-facebook' },
-                youtube: { color: '#FF0000', icon: 'fab fa-youtube' },
-                twitch: { color: '#9146FF', icon: 'fab fa-twitch' }
-            };
-
-            const config = socialConfig[platform] || { color: '#666', icon: 'fas fa-link' };
-            
-            icon.style.backgroundColor = config.color;
-            icon.innerHTML = `<i class="${config.icon} text-white"></i>`;
-            
-            return icon;
-        }
-
-        // Controle do menu lateral
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.getElementById('main-content');
-        const sidebarToggle = document.querySelector('.sidebar-toggle');
-
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('ml-0');
-            mainContent.classList.toggle('ml-[280px]');
-        });
-
-        // Tema escuro
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-        }
-
-        // Verificar preferência de tema
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark-mode');
-        }
-
-        // Efeitos 3D
-        function setupParticlesEffect(scene) {
-            const particles = new THREE.Group();
-            const geometry = new THREE.SphereGeometry(0.1, 8, 8);
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-            for (let i = 0; i < 100; i++) {
-                const particle = new THREE.Mesh(geometry, material);
-                particle.position.set(
-                    Math.random() * 10 - 5,
-                    Math.random() * 10 - 5,
-                    Math.random() * 10 - 5
-                );
-                particles.add(particle);
-            }
-
-            scene.add(particles);
-
-            return () => {
-                particles.rotation.x += 0.001;
-                particles.rotation.y += 0.002;
-            };
-        }
-
-        function setupWavesEffect(scene) {
-            const geometry = new THREE.PlaneGeometry(20, 20, 50, 50);
-            const material = new THREE.MeshBasicMaterial({
-                color: 0x00ff00,
-                wireframe: true
-            });
-
-            const waves = new THREE.Mesh(geometry, material);
-            waves.rotation.x = -Math.PI / 2;
-            scene.add(waves);
-
-            return () => {
-                const positions = waves.geometry.attributes.position.array;
-                const time = Date.now() * 0.001;
-
-                for (let i = 0; i < positions.length; i += 3) {
-                    positions[i + 2] = Math.sin(positions[i] + time) * 
-                                     Math.cos(positions[i + 1] + time) * 0.5;
-                }
-
-                waves.geometry.attributes.position.needsUpdate = true;
-            };
-        }
-
-        function setupCubesEffect(scene) {
-            const cubes = new THREE.Group();
-            const geometry = new THREE.BoxGeometry(1, 1, 1);
-            const material = new THREE.MeshBasicMaterial({
-                color: 0x00ff00,
-                wireframe: true
-            });
-
-            for (let i = 0; i < 5; i++) {
-                for (let j = 0; j < 5; j++) {
-                    const cube = new THREE.Mesh(geometry, material);
-                    cube.position.set(
-                        (i - 2) * 2,
-                        (j - 2) * 2,
-                        0
-                    );
-                    cubes.add(cube);
+            // Update background
+            if (data.background) {
+                if (data.background.type === 'color') {
+                    document.body.style.backgroundColor = data.background.value;
+                } else if (data.background.type === 'gradient') {
+                    document.body.style.background = data.background.value;
+                } else if (data.background.type === '3d') {
+                    VANTA.NET({
+                        el: "body",
+                        mouseControls: true,
+                        touchControls: true,
+                        gyroControls: false,
+                        minHeight: 200.00,
+                        minWidth: 200.00,
+                        scale: 1.00,
+                        scaleMobile: 1.00,
+                        color: 0x3fa9f5,
+                        backgroundColor: 0xffffff,
+                        points: 20.00,
+                        maxDistance: 30.00,
+                        spacing: 15.00
+                    })
+                } else if (data.background.type === 'image' || data.background.type === 'gif') {
+                    document.body.style.backgroundImage = `url(${data.background.value})`;
+                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundAttachment = 'fixed';
                 }
             }
-
-            scene.add(cubes);
-
-            return () => {
-                cubes.rotation.x += 0.01;
-                cubes.rotation.y += 0.01;
-            };
         }
     </script>
 </body>
 </html>
+
