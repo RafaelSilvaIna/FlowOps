@@ -257,3 +257,19 @@ gsap.from(".section", {
     });
 });
 
+window.addEventListerner('DOMContentLoaded', () => {
+    const notification = document.getElementeById('notification');
+    const closeButton = doucument.getElementById('close-btn');
+
+    setTimeout(() => {
+        notification.classList.remove('hidden');
+    }, 500);
+
+    closeButton.addEventLIsterner('click', () =. {
+        notification.classList.add('hidden');
+    });
+
+    setTimeout(() => {
+        notification.classList.add('hidden');
+    }, 5000);
+});

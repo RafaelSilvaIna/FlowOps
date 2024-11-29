@@ -519,17 +519,45 @@
             });
 
             // Get projects
-            const projectItems = document.querySelectorAll('.project-item');
-            projectItems.forEach(item => {
-                const inputs = item.querySelectorAll('input, textarea');
-                formData.projects.push({
-                    title: inputs[0].value,
-                    subtitle: inputs[1].value,
-                    description: inputs[2].value,
-                    image: inputs[3].files[0] ? await getBase64(inputs[3].files[0]) : null,
-                    link: inputs[4].value
-                });
-            });
+         // Função para converter arquivo em Base64
+async function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+        reader.readAsDataURL(file);
+    });
+}
+
+// Supõe-se que formData.projects já foi inicializado como array
+const formData = { projects: [] };
+
+// Certifique-se de que estamos em uma função assíncrona
+async function processProjects() {
+    const projectItems = document.querySelectorAll('.project-item');
+    
+    for (const item of projectItems) {
+        const inputs = item.querySelectorAll('input, textarea');
+
+        // Obter valores dos campos de entrada
+        const title = inputs[0]?.value || '';
+        const subtitle = inputs[1]?.value || '';
+        const description = inputs[2]?.value || '';
+        const file = inputs[3]?.files[0];
+        const link = inputs[4]?.value || '';
+
+        // Converter arquivo em Base64 se existir
+        const image = file ? await getBase64(file) : null;
+
+        // Adicionar projeto ao array
+        formData.projects.push({ title, subtitle, description, image, link });
+    }
+}
+
+// Chamada da função (lembre-se de usar await se estiver em outro contexto assíncrono)
+processProjects()
+    .then(() => console.log('Projetos processados:', formData.projects))
+    .catch(error => console.error('Erro ao processar projetos:', error));
 
             // Get specialties
             const specialtyItems = document.querySelectorAll('.specialty-item');
